@@ -1,5 +1,5 @@
-table tr td{
-	border: solid 1px black;
+table {
+	border-collapse: collapse;
 }
 
 td {
@@ -7,3 +7,11 @@ td {
 	height: 30px;
 	text-align: center;
 }
+
+.game-cell {
+	border: solid 1px black;
+	border-collapse: collapse;
+	padding: 0;
+	margin: 0;
+}
+

@@ -1,6 +1,5 @@
-var row_labels = " abcdefghijklmnop".split("");
-
 function generateBoard() {
+	var row_labels = " abcdefghijklmnop".split("");
 	document.write("<table class='game-board'>");
 
 	for (var row of row_labels){
@@ -10,7 +9,7 @@ function generateBoard() {
 		for (var i = 0; i < 9; i++) {
 			if (i === 0) {
 				document.write("<td class='row-label' id='" +
-							   row + i + "'>");
+							   "_" + i + "'>");
 				document.write(row.toUpperCase());
 				document.write("</td>");
 			} else if (row == " ") {
