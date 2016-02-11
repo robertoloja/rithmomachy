@@ -5,9 +5,12 @@
  *  name of the constructor (e.g. variableName.constructor.name).
  *
  *  Piece contains the checkMove() function, which should be invoked by each 
- *  subclass' move() function.
+ *  subclass' move() function. The updatePosition() function should also be
+ *  called once a move has been verified.
  *
  *  Subclasses are Round, Triangle, Square, and Pyramid.
+ *
+ *  Position is an array, [x, y].
  *
  *****************************************************************************/
 
@@ -60,9 +63,9 @@ Round.prototype.move = function(destination) {
 		return err;
 	}
 
-	if((destination[0] !== position[0] - 1) || 
-	   (destination[0] !== position[0] + 1) ||
-	   (destination[1] !== position[1] - 1) ||
+	if((destination[0] !== position[0] - 1) && 
+	   (destination[0] !== position[0] + 1) &&
+	   (destination[1] !== position[1] - 1) &&
 	   (destination[1] !== position[1] + 1)) {
 		console.log("Illegal move for round piece.");
 		return -1;
@@ -73,6 +76,7 @@ Round.prototype.move = function(destination) {
 
 	} else {
 		this.position = destination;
+		this.updatePosition();
 	}
 };
 
@@ -106,17 +110,12 @@ Triangle.prototype.move = function(destination) {
 	}
 
 	// Regular move, vertical.
-	if((destination[0] !== position[0]) || 
-	   (destination[1] !== position[1] + 2) ||
-	   (destination[1] !== position[1] - 2)) {
-
-		console.log("Illegal move for triangular piece.");
-		return -1;
-
-	// Regular move, horizontal.
-	} else if ((destination[1] !== position[1]) || 
-		       (destination[0] !== position[0] + 2) ||
-			   (destination[0] !== position[0] - 2)) {
+	if((destination[0] !== position[0])		&&
+	   (destination[1] !== position[1] + 2) &&
+	   (destination[1] !== position[1] - 2) &&
+	   (destination[1] !== position[1])		&&
+	   (destination[0] !== position[0] + 2) &&
+	   (destination[0] !== position[0] - 2)) {
 		console.log("Illegal move for triangular piece.");
 		return -1;
 
@@ -126,6 +125,7 @@ Triangle.prototype.move = function(destination) {
 
 	} else {
 		this.position = destination;
+		this.updatePosition();
 	}
 };
 
@@ -171,5 +171,6 @@ Square.prototype.move = function(destination) {
 
 	} else {
 		this.position = destination;
+		this.updatePosition();
 	}
 };
