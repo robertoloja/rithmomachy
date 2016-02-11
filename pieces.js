@@ -120,11 +120,11 @@ Triangle.prototype.move = function(destination) {
  *	Movement: 
  *		Regular: Horizontally or vertically, three squares, if unobstructed.
  *		Flying:	 An extended knight's move, landing to either side of a normal
- *				 move.
+ *				 square move.
  *
  *	Values:
- *		Light:	6, 9, 20, 25, 42, 49, 72, 81.
- *		Dark:	12, 16, 30, 36, 56, 64, 90, 100.
+ *		Light:	15, 25, 45, 81,  169, 153, 289.
+ *		Dark:	28, 49, 66, 120, 121, 225, 361.
  **/
 
 function Triangle(color, position, value) {
