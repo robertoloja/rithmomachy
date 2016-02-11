@@ -27,6 +27,10 @@ Piece.prototype.checkMove = function (destination) {
 	}
 };
 
+Piece.prototype.addToBoard = function () {
+	gameBoard[this.position[1]][this.position[0]] = this;
+};
+
 
 /*****************************************************************************
  * Rounds. 
@@ -44,7 +48,7 @@ Piece.prototype.checkMove = function (destination) {
 function Round(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
-	pieces.push(this);
+	this.addToBoard(position);
 }
 
 Round.prototype = Object.create(Piece.prototype);
@@ -89,7 +93,7 @@ Round.prototype.move = function(destination) {
 function Triangle(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
-	pieces.push(this);
+	this.addToBoard(position);
 }
 
 Triangle.prototype = Object.create(Piece.prototype);
@@ -103,7 +107,16 @@ Triangle.prototype.move = function(destination) {
 
 	// Regular move, vertical.
 	if((destination[0] !== position[0]) || 
-	   (destination[1] !== position[1] + 1)) {
+	   (destination[1] !== position[1] + 2) ||
+	   (destination[1] !== position[1] - 2)) {
+
+		console.log("Illegal move for triangular piece.");
+		return -1;
+
+	// Regular move, horizontal.
+	} else if ((destination[1] !== position[1]) || 
+		       (destination[0] !== position[0] + 2) ||
+			   (destination[0] !== position[0] - 2)) {
 		console.log("Illegal move for triangular piece.");
 		return -1;
 
@@ -134,7 +147,7 @@ Triangle.prototype.move = function(destination) {
 function Square(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
-	pieces.push(this);
+	this.addToBoard(position);
 }
 
 Square.prototype = Object.create(Piece.prototype);
