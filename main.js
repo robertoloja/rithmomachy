@@ -43,18 +43,16 @@ function generateBoard() {
 
 		for (var col of col_labels) {
 			if (col === " ") {
-				document.write("<td class='col-label' id='" +
-							   "_" + i + "'>");
+				document.write("<td class='col-label' id='" + "_" + i + "'>");
 				document.write((i === 17 ? " " : i));
 				document.write("</td>");
 			} else if (i === 17) {
-				document.write("<td class='col-label' id='" +
-							   "_" + col + "'>");
+				document.write("<td class='col-label' id='" + "_" + col + 
+							   "'>");
 			    document.write(col.toUpperCase());
 				document.write("</td>");
 			} else {
-				document.write("<td class='game-cell' id='" +
-							   col + i + "'>");
+				document.write("<td class='game-cell' id='" + col + i + "'>");
 			}
 		}
 	}
@@ -76,7 +74,7 @@ function drawPieces() {
 				console.log((16 - row).toString());
 				console.log(col_labels[col + 1]);
 				cell.innerHTML = "<div id='" + cell.id + "piece' " +
-								 "class='round'>" + gameBoard[row][col].value+
+								 "class='round'>" + gameBoard[row][col].value +
 								 "</div>";
 			} else {
 				cell.innerHTML = "";

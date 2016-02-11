@@ -93,9 +93,10 @@ Round.prototype.findLegalMoves = function() {
 };
 
 Round.prototype.move = function(destination) {
+// TODO: Check if destination is occupied.
 
-	// This is because I cannot find a way to compare internal arrays of arrays
 	for (var t of this.possibleMoves.normal) {
+	// This is because I cannot find a way to compare internal arrays of arrays
 		if (destination.toString() == t.toString()) {
 			Piece.prototype.updatePosition(destination, this);
 		}
