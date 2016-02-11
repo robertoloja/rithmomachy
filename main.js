@@ -1,48 +1,6 @@
 /**
- * Game pieces.
- **/
-var Piece = function (color, value, position) {
-	this.color = color;
-	this.value = value;
-	this.position = position;
-};
-
-Piece.prototype.checkMove = function (destination) {
-	if(destination[0] > 7 || destination[0] < 0 ||
-	   destination[1] > 15 || destination[1] < 0) {
-		console.log("Move destination is off the board.");
-        return -1;
-	} else {
-		return destination;
-	}
-};
-
-function Round(color, value, position) {
-	Piece.call(this, color, value, position);
-}
-
-Round.prototype = Object.create(Piece.prototype);
-Round.prototype.constructor = Round;
-
-Round.prototype.move = function(destination) {
-	// Rounds only move diagonally, one square.
-	if (this.shape === "round") {
-		if((destination[0] !== position[0] - 1) || 
-		   (destination[0] !== position[0] + 1) ||
-		   (destination[1] !== position[1] - 1) ||
-		   (destination[1] !== position[1] + 1)) {
-			console.log("Illegal move for round piece.");
-			return -1;
-		}
-	}
-
-	if (gameBoard[destination[0]][destination[1]] !== 0) {
-		console.log("Destination square is occupied.");
-	}
-};
-
-/**
- * Presentation logic.
+ * This file is included in the HTML document, at the top. Thus, it defines
+ * gloval variables for the project.
  **/
 function generateBoard() {
 	var col_labels = " abcdefgh".split("");
@@ -70,3 +28,31 @@ function generateBoard() {
 	}
 	document.write("</table>");
 }
+
+/**
+ * The game board is a 2D array, containing either Piece objects or 0.
+ **/
+var gameBoard = [
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+];
+
+/**
+ * The pieces array contains every piece in play. It can be iterated over to
+ * position all pieces on the board.
+ **/
+var pieces = [];
