@@ -1,17 +1,31 @@
-var Piece = function (color, shape, value, position) {
+/**
+ * Game pieces.
+ **/
+var Piece = function (color, value, position) {
 	this.color = color;
-	this.shape = shape;
 	this.value = value;
 	this.position = position;
 };
 
-Piece.prototype.move = function(destination) {
+Piece.prototype.checkMove = function (destination) {
 	if(destination[0] > 7 || destination[0] < 0 ||
 	   destination[1] > 15 || destination[1] < 0) {
 		console.log("Move destination is off the board.");
         return -1;
+	} else {
+		return destination;
 	}
+};
 
+function Round(color, value, position) {
+	Piece.call(this, color, value, position);
+}
+
+Round.prototype = Object.create(Piece.prototype);
+Round.prototype.constructor = Round;
+
+Round.prototype.move = function(destination) {
+	// Rounds only move diagonally, one square.
 	if (this.shape === "round") {
 		if((destination[0] !== position[0] - 1) || 
 		   (destination[0] !== position[0] + 1) ||
@@ -27,6 +41,9 @@ Piece.prototype.move = function(destination) {
 	}
 };
 
+/**
+ * Presentation logic.
+ **/
 function generateBoard() {
 	var col_labels = " abcdefgh".split("");
 	document.write("<table class='game-board'>");
