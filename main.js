@@ -20,13 +20,13 @@ var gameBoard = [
 	[0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
+var col_labels = " abcdefgh".split("");
 
 /**
  * This file is included in the HTML document, at the top. Thus, it defines
  * gloval variables for the project.
  **/
 function generateBoard() {
-	var col_labels = " abcdefgh".split("");
 	document.write("<table class='game-board'>");
 
 	for (var i = 17; i > 0; i--) {
@@ -53,4 +53,17 @@ function generateBoard() {
 }
 
 function setupBoard() {
+	for (var row = 0; row < gameBoard.length; row++) {
+		for (var col = 0; col < gameBoard[0].length; col++) {
+			if (gameBoard[row][col] !== 0) {
+				console.log((16 - row).toString());
+				console.log(col_labels[col + 1]);
+				var cell = document.getElementById(
+						   col_labels[col + 1] + (16 - row).toString());
+				cell.innerHTML = "<div id='" + cell.id + "piece' " +
+								 "class='round'>" + gameBoard[row][col].value+
+								 "</div>";
+			}
+		}
+	}
 }

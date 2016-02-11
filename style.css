@@ -15,3 +15,12 @@ td {
 	margin: 0;
 }
 
+.round {
+	border: solid 1px black;
+	background-color: #FFF;
+	width: 29px;
+	height: 29px;
+	border-radius: 100%;
+	text-align: center;
+	vertical-align: middle;
+}
