@@ -1,3 +1,4 @@
+// TODO: Line 85.
 /*****************************************************************************
  * Game pieces. 
  *  Each shape is a subclass of Piece. Thus, the shape of the 
@@ -35,12 +36,15 @@ Piece.prototype.addToBoard = function () {
 
 // This both updates the piece's position property and repositions the piece
 // on the board.
-Piece.prototype.updatePosition = function (destination) {
-	gameBoard[this.position[1]][this.position[0]] = 0;
-	gameBoard[destination[1]][destination[0]] = this;
+Piece.prototype.updatePosition = function (destination, obj) {
+	gameBoard[obj.position[1]][obj.position[0]] = 0;
+	gameBoard[destination[1]][destination[0]] = obj;
 
 	// Copy by value.
-	this.position = destination.slice();
+	obj.position = destination.slice();
+
+	// Finally, update list of legal positions.
+	obj.findLegalMoves();
 };
 
 
@@ -62,9 +66,10 @@ function Round(color, position, value) {
 	this.value = value;
 	this.addToBoard(position);
 	this.possibleMoves = {
-		normal: this.findNormalMoves(),
+		normal: [],
 		flying: []
 	};
+	this.findLegalMoves();
 }
 
 Round.prototype = Object.create(Piece.prototype);
@@ -78,30 +83,22 @@ Round.prototype.findLegalMoves = function() {
 		[this.position[0] - 1, this.position[1] - 1],
 	];
 
-	var legalMoves = candidateMoves.filter(isDestinationInBoard(move));
+	var legalMoves = candidateMoves.filter(function(move) {
+		// The "this" keyword returns the Window when called from the console.
+		// Investigate if this is the case when called in-program.
+		return Piece.prototype.isDestinationInBoard(move);
+	});
 
-	return legalMoves;
+	this.possibleMoves.normal = legalMoves;
 };
 
 Round.prototype.move = function(destination) {
-	var err = this.isDestinationInBoard(destination);
-	if (err === -1) {
-		return err;
-	}
 
-	if((destination[0] !== this.position[0] - 1) && 
-	   (destination[0] !== this.position[0] + 1) &&
-	   (destination[1] !== this.position[1] - 1) &&
-	   (destination[1] !== this.position[1] + 1)) {
-		console.log("Illegal move for round piece.");
-		return -1;
-
-	} else if (gameBoard[destination[0]][destination[1]] !== 0) {
-		console.log("Destination square is occupied.");
-		return -1;
-
-	} else {
-		this.updatePosition(destination);
+	// This is because I cannot find a way to compare internal arrays of arrays
+	for (var t of this.possibleMoves.normal) {
+		if (destination.toString() == t.toString()) {
+			Piece.prototype.updatePosition(destination, this);
+		}
 	}
 };
 
