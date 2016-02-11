@@ -115,11 +115,10 @@ Round.prototype.findLegalMoves = function() {
 		[this.position[0] - 1, this.position[1] - 1],
 	];
 
-	var legalMoves = candidateMoves.filter(function(move) {
+	var legalMoves = candidateMoves.filter( move => Piece.prototype
+												.isDestinationInBoard(move));
 		// The "this" keyword returns the Window when called from the console.
 		// Investigate if this is the case when called in-program.
-		return Piece.prototype.isDestinationInBoard(move);
-	});
 
 	this.possibleMoves.normal = legalMoves;
 };
