@@ -1,13 +1,13 @@
-// TODO: Line 85.
+// TODO: Line 87.
 /*****************************************************************************
  * Game pieces. 
  *  Each shape is a subclass of Piece. Thus, the shape of the 
  *  piece should be determined by the instanceof operator, or by getting the
  *  name of the constructor (e.g. variableName.constructor.name).
  *
- *  Piece contains the isDestinationInBoard() function, which should be invoked by each 
- *  subclass' move() function. The updatePosition() function should also be
- *  called once a move has been verified.
+ *  Piece contains the isDestinationInBoard() function, which should be invoked
+ *  by each subclass' move() function. The updatePosition() function should
+ *  also be called once a move has been verified.
  *
  *  Subclasses are Round, Triangle, Square, and Pyramid.
  *
@@ -15,12 +15,27 @@
  *
  *****************************************************************************/
 
+/**
+ * Represents a game piece. 
+ * @classdesc Parent class of Round, Triangle, Square, and Pyramid.
+ * @constructor
+ * @param {string} color - Light or dark; which player controls this piece.
+ * @param {number[]} position - Position on the board. Two integers, [x, y].
+ */
 var Piece = function (color, position) {
 	this.color = color;
 	this.position = position;
+	this.possibleMoves = {
+		normal: [],
+		flying: []
+	};
 };
 
-// This ensures that a move is within the limits of the board. 
+
+/**
+ * Checks if a move destination is within the board's boundaries.
+ * @param {number[]} destination - A coordinate, [x,y].
+ */
 Piece.prototype.isDestinationInBoard = function (destination) {
 	if(destination[0] > 7 || destination[0] < 0 ||
 	   destination[1] > 15 || destination[1] < 0) {
@@ -30,12 +45,19 @@ Piece.prototype.isDestinationInBoard = function (destination) {
 	}
 };
 
+
+/**
+ * Adds a piece to the game board. Invoked via the "this" keyword.
+ */
 Piece.prototype.addToBoard = function () {
 	gameBoard[this.position[1]][this.position[0]] = this;
 };
 
-// This both updates the piece's position property and repositions the piece
-// on the board.
+
+/**
+ * Changes Piece.position to the destination of a move, updates the game board,
+ * recalculates Piece.possibleMoves.
+ */
 Piece.prototype.updatePosition = function (destination, obj) {
 	gameBoard[obj.position[1]][obj.position[0]] = 0;
 	gameBoard[destination[1]][destination[0]] = obj;
@@ -61,20 +83,30 @@ Piece.prototype.updatePosition = function (destination, obj) {
  *
  *****************************************************************************/
 
+/**
+ * Represents a round game piece. 
+ * @classdesc Rounds move a single square, diagonally, and never fly.
+ * @constructor
+ * @extends Piece
+ * @param {string} color - Light or dark; which player controls this piece.
+ * @param {number[]} position - Position on the board. Two integers, [x, y].
+ * @param {number} value - This piece's number value.
+ */
 function Round(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
 	this.addToBoard(position);
-	this.possibleMoves = {
-		normal: [],
-		flying: []
-	};
 	this.findLegalMoves();
 }
 
 Round.prototype = Object.create(Piece.prototype);
 Round.prototype.constructor = Round;
 
+
+/**
+ * Populates Piece.possibleMoves with moves that are on the board, follow this
+ * piece's movement rules, and land on empty squares.
+ */
 Round.prototype.findLegalMoves = function() {
 	var candidateMoves = [
 		[this.position[0] + 1, this.position[1] + 1],
@@ -92,9 +124,13 @@ Round.prototype.findLegalMoves = function() {
 	this.possibleMoves.normal = legalMoves;
 };
 
-Round.prototype.move = function(destination) {
-// TODO: Check if destination is occupied.
 
+/**
+ * Moves the Round piece. Ensures move is legal. 
+ * @param {number[]} destination - A coordinate, [x, y].
+ * @todo Check if destination is occupied and if there was a piece in the way.
+ */
+Round.prototype.move = function(destination) {
 	for (var t of this.possibleMoves.normal) {
 	// This is because I cannot find a way to compare internal arrays of arrays
 		if (destination.toString() == t.toString()) {
@@ -117,6 +153,16 @@ Round.prototype.move = function(destination) {
  *
  *****************************************************************************/
 
+/**
+ * Represents a triangular game piece. 
+ * @classdesc Rounds move two squares horizontally or vertically, if
+ *			  path is unobstructed. They fly just as knight's in chess.
+ * @constructor
+ * @extends Piece
+ * @param {string} color - Light or dark; which player controls this piece.
+ * @param {number[]} position - Position on the board. Two integers, [x, y].
+ * @param {number} value - This piece's number value.
+ */
 function Triangle(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
