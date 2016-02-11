@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pieces.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pieces.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// TODO: Line 87.
+/*****************************************************************************
+ * Game pieces. 
+ *  Each shape is a subclass of Piece. Thus, the shape of the 
+ *  piece should be determined by the instanceof operator, or by getting the
+ *  name of the constructor (e.g. variableName.constructor.name).
+ *
+ *  Piece contains the isDestinationInBoard() function, which should be invoked
+ *  by each subclass' move() function. The updatePosition() function should
+ *  also be called once a move has been verified.
+ *
+ *  Subclasses are Round, Triangle, Square, and Pyramid.
+ *
+ *  Position is an array, [x, y].
+ *
+ *****************************************************************************/
+
+/**
+ * Represents a game piece. 
+ * @classdesc Parent class of Round, Triangle, Square, and Pyramid.
+ * @constructor
+ * @param {string} color - Light or dark; which player controls this piece.
+ * @param {number[]} position - Position on the board. Two integers, [x, y].
+ */
+var Piece = function (color, position) {
+	this.color = color;
+	this.position = position;
+	this.possibleMoves = {
+		normal: [],
+		flying: []
+	};
+};
+
+
+/**
+ * Checks if a move destination is within the board's boundaries.
+ * @param {number[]} destination - A coordinate, [x,y].
+ */
+Piece.prototype.isDestinationInBoard = function (destination) {
+	if(destination[0] > 7 || destination[0] &lt; 0 ||
+	   destination[1] > 15 || destination[1] &lt; 0) {
+        return false;
+	} else {
+		return true;
+	}
+};
+
+
+/**
+ * Adds a piece to the game board. Invoked via the "this" keyword.
+ */
+Piece.prototype.addToBoard = function () {
+	gameBoard[this.position[1]][this.position[0]] = this;
+};
+
+
+/**
+ * Changes Piece.position to the destination of a move, updates the game board,
+ * recalculates Piece.possibleMoves.
+ */
+Piece.prototype.updatePosition = function (destination, obj) {
+	gameBoard[obj.position[1]][obj.position[0]] = 0;
+	gameBoard[destination[1]][destination[0]] = obj;
+
+	// Copy by value.
+	obj.position = destination.slice();
+
+	// Finally, update list of legal positions.
+	obj.findLegalMoves();
+};
+
+
+/*****************************************************************************
+ * Rounds. 
+ *
+ *	Movement: 
+ *		Regular: Diagonally, single square.
+ *		Flying:	 Rounds do not fly.
+ *
+ *	Values:  
+ *		Light:	2, 4, 6, 8, and their squares.
+ *		Dark:	3, 5, 7, 9, and their squares.
+ *
+ *****************************************************************************/
+
+/**
+ * Represents a round game piece. 
+ * @classdesc Rounds move a single square, diagonally, and never fly.
+ * @constructor
+ * @extends Piece
+ * @param {string} color - Light or dark; which player controls this piece.
+ * @param {number[]} position - Position on the board. Two integers, [x, y].
+ * @param {number} value - This piece's number value.
+ */
+function Round(color, position, value) {
+	Piece.call(this, color, position);
+	this.value = value;
+	this.addToBoard(position);
+	this.findLegalMoves();
+}
+
+Round.prototype = Object.create(Piece.prototype);
+Round.prototype.constructor = Round;
+
+
+/**
+ * Populates Piece.possibleMoves with moves that are on the board, follow this
+ * piece's movement rules, and land on empty squares.
+ */
+Round.prototype.findLegalMoves = function() {
+	var candidateMoves = [
+		[this.position[0] + 1, this.position[1] + 1],
+		[this.position[0] - 1, this.position[1] + 1],
+		[this.position[0] + 1, this.position[1] - 1],
+		[this.position[0] - 1, this.position[1] - 1],
+	];
+
+	var legalMoves = candidateMoves.filter(function(move) {
+		// The "this" keyword returns the Window when called from the console.
+		// Investigate if this is the case when called in-program.
+		return Piece.prototype.isDestinationInBoard(move);
+	});
+
+	this.possibleMoves.normal = legalMoves;
+};
+
+
+/**
+ * Moves the Round piece. Ensures move is legal. 
+ * @param {number[]} destination - A coordinate, [x, y].
+ * @todo Check if destination is occupied and if there was a piece in the way.
+ */
+Round.prototype.move = function(destination) {
+	for (var t of this.possibleMoves.normal) {
+	// This is because I cannot find a way to compare internal arrays of arrays
+		if (destination.toString() == t.toString()) {
+			Piece.prototype.updatePosition(destination, this);
+		}
+	}
+};
+
+
+/******************************************************************************
+ * Triangles. 
+ *
+ *	Movement: 
+ *		Regular: Horizontally or vertically, two squares, if unobstructed.
+ *		Flying:	 A knight's move.
+ *
+ *	Values:
+ *		Light:	6, 9, 20, 25, 42, 49, 72, 81.
+ *		Dark:	12, 16, 30, 36, 56, 64, 90, 100.
+ *
+ *****************************************************************************/
+
+/**
+ * Represents a triangular game piece. 
+ * @classdesc Rounds move two squares horizontally or vertically, if
+ *			  path is unobstructed. They fly just as knight's in chess.
+ * @constructor
+ * @extends Piece
+ * @param {string} color - Light or dark; which player controls this piece.
+ * @param {number[]} position - Position on the board. Two integers, [x, y].
+ * @param {number} value - This piece's number value.
+ */
+function Triangle(color, position, value) {
+	Piece.call(this, color, position);
+	this.value = value;
+	this.addToBoard(position);
+	this.possibleMoves = this.findLegalMoves();
+}
+
+Triangle.prototype = Object.create(Piece.prototype);
+Triangle.prototype.constructor = Triangle;
+
+Triangle.prototype.move = function(destination) {
+	var err = this.isDestinationInBoard(destination);
+	if (err === -1) {
+		return err;
+	}
+
+	// Regular move, vertical.
+	if((destination[0] !== this.position[0])	 &amp;&amp;
+	   (destination[1] !== this.position[1] + 2) &amp;&amp;
+	   (destination[1] !== this.position[1] - 2) &amp;&amp;
+	   (destination[1] !== this.position[1])	 &amp;&amp;
+	   (destination[0] !== this.position[0] + 2) &amp;&amp;
+	   (destination[0] !== this.position[0] - 2)) {
+		console.log("Illegal move for triangular piece.");
+		return -1;
+
+	} else if (gameBoard[destination[0]][destination[1]] !== 0) {
+		console.log("Destination square is occupied.");
+		return -1;
+
+	} else {
+		this.updatePosition(destination);
+	}
+};
+
+
+/******************************************************************************
+ * Squares. 
+ *
+ *	Movement: 
+ *		Regular: Horizontally or vertically, three squares, if unobstructed.
+ *		Flying:	 An extended knight's move, landing to either side of a normal
+ *				 square move.
+ *
+ *	Values:
+ *		Light:	15, 25, 45, 81,  169, 153, 289.
+ *		Dark:	28, 49, 66, 120, 121, 225, 361.
+ *
+ *****************************************************************************/
+
+function Square(color, position, value) {
+	Piece.call(this, color, position);
+	this.value = value;
+	this.addToBoard(position);
+	this.possibleMoves = this.findLegalMoves();
+}
+
+Square.prototype = Object.create(Piece.prototype);
+Square.prototype.constructor = Square;
+
+Square.prototype.move = function(destination) {
+	var err = this.isDestinationInBoard(destination);
+	if (err === -1) {
+		return err;
+	}
+
+	// Regular move, vertical.
+	if((destination[0] !== position[0]) || 
+	   (destination[1] !== position[1] + 1)) {
+		console.log("Illegal move for square piece.");
+		return -1;
+
+	} else if (gameBoard[destination[0]][destination[1]] !== 0) {
+		console.log("Destination square is occupied.");
+		return -1;
+
+	} else {
+		this.updatePosition(destination);
+	}
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Piece.html">Piece</a></li><li><a href="Round.html">Round</a></li><li><a href="Triangle.html">Triangle</a></li></ul><h3>Global</h3><ul><li><a href="global.html#drawPieces">drawPieces</a></li><li><a href="global.html#gameBoard">gameBoard</a></li><li><a href="global.html#generateBoard">generateBoard</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 05:25:01 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
