@@ -1,4 +1,4 @@
-/**
+/*****************************************************************************
  * Game pieces. 
  *  Each shape is a subclass of Piece. Thus, the shape of the 
  *  piece should be determined by the instanceof operator, or by getting the
@@ -8,7 +8,8 @@
  *  subclass' move() function.
  *
  *  Subclasses are Round, Triangle, Square, and Pyramid.
- **/
+ *
+ *****************************************************************************/
 
 var Piece = function (color, position) {
 	this.color = color;
@@ -27,7 +28,7 @@ Piece.prototype.checkMove = function (destination) {
 };
 
 
-/**
+/*****************************************************************************
  * Rounds. 
  *
  *	Movement: 
@@ -37,7 +38,8 @@ Piece.prototype.checkMove = function (destination) {
  *	Values:  
  *		Light:	2, 4, 6, 8, and their squares.
  *		Dark:	3, 5, 7, 9, and their squares.
- **/
+ *
+ *****************************************************************************/
 
 function Round(color, position, value) {
 	Piece.call(this, color, position);
@@ -71,7 +73,7 @@ Round.prototype.move = function(destination) {
 };
 
 
-/**
+/******************************************************************************
  * Triangles. 
  *
  *	Movement: 
@@ -81,7 +83,8 @@ Round.prototype.move = function(destination) {
  *	Values:
  *		Light:	6, 9, 20, 25, 42, 49, 72, 81.
  *		Dark:	12, 16, 30, 36, 56, 64, 90, 100.
- **/
+ *
+ *****************************************************************************/
 
 function Triangle(color, position, value) {
 	Piece.call(this, color, position);
@@ -101,7 +104,7 @@ Triangle.prototype.move = function(destination) {
 	// Regular move, vertical.
 	if((destination[0] !== position[0]) || 
 	   (destination[1] !== position[1] + 1)) {
-		console.log("Illegal move for round piece.");
+		console.log("Illegal move for triangular piece.");
 		return -1;
 
 	} else if (gameBoard[destination[0]][destination[1]] !== 0) {
@@ -114,7 +117,7 @@ Triangle.prototype.move = function(destination) {
 };
 
 
-/**
+/******************************************************************************
  * Squares. 
  *
  *	Movement: 
@@ -125,18 +128,19 @@ Triangle.prototype.move = function(destination) {
  *	Values:
  *		Light:	15, 25, 45, 81,  169, 153, 289.
  *		Dark:	28, 49, 66, 120, 121, 225, 361.
- **/
+ *
+ *****************************************************************************/
 
-function Triangle(color, position, value) {
+function Square(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
 	pieces.push(this);
 }
 
-Triangle.prototype = Object.create(Piece.prototype);
-Triangle.prototype.constructor = Triangle;
+Square.prototype = Object.create(Piece.prototype);
+Square.prototype.constructor = Square;
 
-Triangle.prototype.move = function(destination) {
+Square.prototype.move = function(destination) {
 	var err = this.checkMove(destination);
 	if (err === -1) {
 		return err;
@@ -145,7 +149,7 @@ Triangle.prototype.move = function(destination) {
 	// Regular move, vertical.
 	if((destination[0] !== position[0]) || 
 	   (destination[1] !== position[1] + 1)) {
-		console.log("Illegal move for round piece.");
+		console.log("Illegal move for square piece.");
 		return -1;
 
 	} else if (gameBoard[destination[0]][destination[1]] !== 0) {
