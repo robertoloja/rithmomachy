@@ -70,12 +70,14 @@ function drawPieces() {
 		for (var col = 0; col < gameBoard[0].length; col++) {
 			var cell = document.getElementById(col_labels[col + 1] +
 								(16 - row).toString());
-			if (gameBoard[row][col] !== 0) {
-				console.log((16 - row).toString());
-				console.log(col_labels[col + 1]);
+			if (gameBoard[row][col].constructor.name === "Round") {
 				cell.innerHTML = "<div id='" + cell.id + "piece' " +
-								 "class='round'>" + gameBoard[row][col].value +
+								 "class='round'>" + gameBoard[row][col].value+
 								 "</div>";
+			} else if (gameBoard[row][col].constructor.name === "Triangle") {
+				cell.innerHTML = "<div id='" + cell.id + "piece' " +
+								 "class='triangle'>" + gameBoard[row][col]
+								 .value + "</div>";
 			} else {
 				cell.innerHTML = "";
 			}

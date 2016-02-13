@@ -1,23 +1,9 @@
 // TODO: Line 87.
-/*****************************************************************************
- * Game pieces. 
- *  Each shape is a subclass of Piece. Thus, the shape of the 
- *  piece should be determined by the instanceof operator, or by getting the
- *  name of the constructor (e.g. variableName.constructor.name).
- *
- *  Piece contains the isDestinationInBoard() function, which should be invoked
- *  by each subclass' move() function. The updatePosition() function should
- *  also be called once a move has been verified.
- *
- *  Subclasses are Round, Triangle, Square, and Pyramid.
- *
- *  Position is an array, [x, y].
- *
- *****************************************************************************/
-
+// TODO: Tests.
 /**
  * Represents a game piece. 
- * @classdesc Parent class of Round, Triangle, Square, and Pyramid.
+ * @classdesc Parent class of Round, Triangle, Square, and Pyramid. Find the
+ *			  particular subclass by variableName.constructor.name.
  * @constructor
  * @param {string} color - Light or dark; which player controls this piece.
  * @param {number[]} position - Position on the board. Two integers, [x, y].
@@ -35,6 +21,7 @@ var Piece = function (color, position) {
 /**
  * Checks if a move destination is within the board's boundaries.
  * @param {number[]} destination - A coordinate, [x,y].
+ * @return true if in board, false otherwise.
  */
 Piece.prototype.isDestinationInBoard = function (destination) {
 	if(destination[0] > 7 || destination[0] < 0 ||
@@ -43,6 +30,52 @@ Piece.prototype.isDestinationInBoard = function (destination) {
 	} else {
 		return true;
 	}
+};
+
+/**
+ * Checks if there is a piece in between this and the destination, including
+ * at the destination.
+ * @param {number[]} destination - A coordinate, [x,y].
+ * @todo Rewrite this stupid function. Rows don't need to be checked if the 
+ * movement is vertical, and columns don't need to be checked if the movement
+ * is horizontal.
+ * @return true is blocked, false otherwise.
+ */
+Piece.prototype.isPieceBlocking = function (destination) {
+	var diff = [this.position[0] - destination[0],
+				this.position[1] - destination[1]];
+
+	// If destination is to the left
+	if (diff[0] > 0) {
+		// Check each square till destination
+		for (var i = this.position[0]; i >= destination[0]; i--) {
+			if (gameBoard[i][destination[1]] !== 0) {
+				return true;
+			}
+		}
+	// If it's to the right
+	} else if (diff[0] < 0) { 
+		for (var j = this.position[0]; j <= destination[0]; j++) {
+			if (gameBoard[j][destination[1]] !== 0) {
+				return true;
+			}
+		}
+	// If it's above
+	} else if (diff[1] > 0) {
+		for (var h = this.position[1]; h >= destination[1]; h--) {
+			if (gameBoard[destination[0]][h] !== 0) {
+				return true;
+			}
+		}
+	// If it's below
+	} else if (diff[1] < 0) {
+		for (var k = this.position[1]; k <= destination[1]; k++) {
+			if (gameBoard[destination[0]][k] !== 0) {
+				return true;
+			}
+		}
+	}
+	return false;
 };
 
 
@@ -67,25 +100,17 @@ Piece.prototype.updatePosition = function (destination, obj) {
 
 	// Finally, update list of legal positions.
 	obj.findLegalMoves();
+
+	// Here's the only real linkup to the interface.
+	drawPieces();
 };
 
-
-/*****************************************************************************
- * Rounds. 
- *
- *	Movement: 
- *		Regular: Diagonally, single square.
- *		Flying:	 Rounds do not fly.
- *
- *	Values:  
- *		Light:	2, 4, 6, 8, and their squares.
- *		Dark:	3, 5, 7, 9, and their squares.
- *
- *****************************************************************************/
 
 /**
  * Represents a round game piece. 
  * @classdesc Rounds move a single square, diagonally, and never fly.
+ *			  Light values: 2, 4, 6, 8, and their squares.
+ *			  Dark values:  3, 5, 7, 9, and their squares.
  * @constructor
  * @extends Piece
  * @param {string} color - Light or dark; which player controls this piece.
@@ -124,6 +149,13 @@ Round.prototype.findLegalMoves = function() {
 };
 
 
+Round.prototype.isPieceBlocking = function (destination) {
+	if (gameBoard[destination[1]][destination[0]] !== 0) {
+		return true;
+	}
+	return false;
+};
+
 /**
  * Moves the Round piece. Ensures move is legal. 
  * @param {number[]} destination - A coordinate, [x, y].
@@ -132,7 +164,8 @@ Round.prototype.findLegalMoves = function() {
 Round.prototype.move = function(destination) {
 	for (var t of this.possibleMoves.normal) {
 	// This is because I cannot find a way to compare internal arrays of arrays
-		if (destination.toString() == t.toString()) {
+		if (destination.toString() == t.toString() &&
+			!this.isPieceBlocking(destination)) {
 			Piece.prototype.updatePosition(destination, this);
 		}
 	}
@@ -155,7 +188,7 @@ Round.prototype.move = function(destination) {
 /**
  * Represents a triangular game piece. 
  * @classdesc Rounds move two squares horizontally or vertically, if
- *			  path is unobstructed. They fly just as knight's in chess.
+ *			  path is unobstructed. They fly just as knights in chess.
  * @constructor
  * @extends Piece
  * @param {string} color - Light or dark; which player controls this piece.
@@ -166,35 +199,53 @@ function Triangle(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
 	this.addToBoard(position);
-	this.possibleMoves = this.findLegalMoves();
+	this.findLegalMoves();
 }
 
 Triangle.prototype = Object.create(Piece.prototype);
 Triangle.prototype.constructor = Triangle;
 
 Triangle.prototype.move = function(destination) {
-	var err = this.isDestinationInBoard(destination);
-	if (err === -1) {
-		return err;
+	for (var t of this.possibleMoves.normal) {
+		if (destination.toString() == t.toString() &&
+			!this.isPieceBlocking(destination)) {
+
+			Piece.prototype.updatePosition(destination, this);
+		}
 	}
+};
 
-	// Regular move, vertical.
-	if((destination[0] !== this.position[0])	 &&
-	   (destination[1] !== this.position[1] + 2) &&
-	   (destination[1] !== this.position[1] - 2) &&
-	   (destination[1] !== this.position[1])	 &&
-	   (destination[0] !== this.position[0] + 2) &&
-	   (destination[0] !== this.position[0] - 2)) {
-		console.log("Illegal move for triangular piece.");
-		return -1;
+Triangle.prototype.findLegalMoves = function () {
+	var candidateMoves = {
+		normal:	[
+			[this.position[0] - 1, this.position[1] - 2],
+			[this.position[0] + 1, this.position[1] - 2],
+			[this.position[0] - 2, this.position[1] - 1],
+			[this.position[0] - 2, this.position[1] + 1],
+			[this.position[0] - 1, this.position[1] + 2],
+			[this.position[0] + 1, this.position[1] + 2],
+			[this.position[0] + 2, this.position[1] + 1],
+			[this.position[0] + 2, this.position[1] - 1]
+		],
 
-	} else if (gameBoard[destination[0]][destination[1]] !== 0) {
-		console.log("Destination square is occupied.");
-		return -1;
+		flying: [
+			[this.position[0], this.position[1] - 2],
+			[this.position[0], this.position[1] + 2],
+			[this.position[0] - 2, this.position[1]],
+			[this.position[0] + 2, this.position[1]],
+		]
+	};
 
-	} else {
-		this.updatePosition(destination);
-	}
+	candidateMoves.normal = candidateMoves.normal.filter(move => Piece
+												.prototype
+												.isDestinationInBoard(move));
+	
+	candidateMoves.flying = candidateMoves.flying.filter(move => Piece
+												.prototype
+												.isDestinationInBoard(move));
+	
+	this.possibleMoves.normal = candidateMoves.normal;
+	this.possibleMoves.flying = candidateMoves.flying;
 };
 
 
