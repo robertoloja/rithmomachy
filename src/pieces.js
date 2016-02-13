@@ -255,6 +255,8 @@ Triangle.prototype.findLegalMoves = function () {
 };
 
 
+/*************************************************************************/
+
 /**
  * Represents a square game piece. 
  * @classdesc Squares move three squares horizontally or vertically, if
