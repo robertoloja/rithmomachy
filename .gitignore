@@ -1,2 +1,5 @@
 .jshintrc
 npm-debug.log
+node-modules
+node-modules/*
+.babelrc
