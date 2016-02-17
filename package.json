@@ -1,0 +1,29 @@
+{
+  "name": "rithmomachy",
+  "version": "0.0.0",
+  "description": "A web based version of Rithmomachy (or Arithmomachy).",
+  "main": "main.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robertoloja/rithmomachy.git"
+  },
+  "keywords": [
+    "rithmomachy",
+    "arithmomachy",
+    "board-game",
+    "game",
+    "medieval"
+  ],
+  "author": "Roberto Loja",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robertoloja/rithmomachy/issues"
+  }
+}

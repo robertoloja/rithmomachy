@@ -1,10 +1,21 @@
+var pieces = require ('../src/pieces.js');
+var main = require ('../src/main.js');
 var assert = require('assert');
 
-describe ('Array', function () {
-	describe('#indexOf()', function() {
-		it('should return -1 when the value is not present', function () {
-			assert.equal(-1, [1, 2, 3].indexOf(5));
-			assert.equal(-1, [1, 2, 3].indexOf(0));
+describe ('Pieces', function () {
+	describe ('Rounds', function () {
+		it('should create a Round.', function () {
+			var new_round_test = new Round("white", [5,5], 12);
+			assert.equal(new_round_test.color, "white");
 		});
+	});
+
+	describe ('Triangles', function () {
+	});
+
+	describe ('Squares', function () {
+	});
+
+	describe ('Pyramids', function () {
 	});
 });
