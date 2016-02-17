@@ -1,3 +1,5 @@
+var gameBoard = require('./main.js');
+module.exports = Round;
 // TODO: Tests.
 /**
  * Represents a game piece. 
@@ -122,7 +124,7 @@ Piece.prototype.updatePosition = function (destination, obj) {
 function Round(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
-	this.addToBoard(position);
+	this.addToBoard();
 	this.findLegalMoves();
 }
 
@@ -182,7 +184,7 @@ Round.prototype.move = function(destination) {
 function Triangle(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
-	this.addToBoard(position);
+	this.addToBoard();
 	this.findLegalMoves();
 }
 
@@ -273,7 +275,7 @@ Triangle.prototype.findLegalMoves = function () {
 function Square(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
-	this.addToBoard(position);
+	this.addToBoard();
 	this.findLegalMoves();
 }
 
@@ -364,7 +366,7 @@ function Pyramid(color, position, constituents) {
 	Piece.call(this, color, position);
 	this.value = value;
 	this.constituents = constituents; 
-	this.addToBoard(position);
+	this.addToBoard();
 	this.findLegalMoves();
 }
 

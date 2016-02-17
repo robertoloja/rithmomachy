@@ -1,6 +1,6 @@
-import '../src/pieces.js';
-import '../src/main.js';
-import assert from 'assert';
+var Round = require('../src/pieces.js');
+var gameBoard = require('../src/main.js');
+var assert = require('assert');
 
 describe ('Pieces', function () {
 	describe ('Rounds', function () {

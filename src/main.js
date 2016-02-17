@@ -1,3 +1,4 @@
+module.exports = gameBoard;
 /**
  * The game board is a 2D array, containing either Piece objects or 0.
  *
