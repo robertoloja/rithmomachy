@@ -17,7 +17,6 @@ var Piece = require('./Piece.js').Piece;
 
 function Pyramid(color, position, constituents) {
 	Piece.call(this, color, position);
-	this.value = value;
 	this.constituents = constituents; 
 	this.addToBoard();
 	this.findLegalMoves();
@@ -36,6 +35,7 @@ Pyramid.prototype.remove = function (piece) {
 };
 
 Pyramid.prototype.findLegalMoves = function () {
+	// TODO: Change this FOR OF into FOR IN.
 	for (var piece of this.constituents) {
 		this.possibleMoves = piece.possibleMoves;
 	}

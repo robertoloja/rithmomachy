@@ -29,14 +29,14 @@ var gameBoard = [
 ];
 module.exports.gameBoard = gameBoard;
 
-var col_labels = " abcdefgh".split("");
-
 
 /**
  * Generates the HTML board, naming each row after its number (labels are _x,
  * where x is the number) and each cell as, e.g., "a16" for gameBoard[0][0].
  **/
 function generateBoard() {
+	var col_labels = " abcdefgh".split("");
+
 	document.write("<table class='game-board'>");
 
 	for (var i = 17; i > 0; i--) {
