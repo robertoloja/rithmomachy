@@ -1,4 +1,3 @@
-module.exports = gameBoard;
 /**
  * The game board is a 2D array, containing either Piece objects or 0.
  *
@@ -28,6 +27,7 @@ var gameBoard = [
 	[0, 0, 0, 0, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 0, 0, 0],
 ];
+module.exports.gameBoard = gameBoard;
 
 var col_labels = " abcdefgh".split("");
 
@@ -64,7 +64,7 @@ function generateBoard() {
  * Iterates over the entire gameBoard, clearing cells filled with 0 and
  * drawing cells that have game pieces in them.
  *
- * TODO: Currently only handles Rounds.
+ * TODO: Currently only handles Rounds and Triangles.
  **/
 function drawPieces() {
 	for (var row = 0; row < gameBoard.length; row++) {

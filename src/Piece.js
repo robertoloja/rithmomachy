@@ -1,6 +1,5 @@
-var gameBoard = require('./main.js');
-module.exports = Round;
-// TODO: Tests.
+var gameBoard = require('./main.js').gameBoard;
+
 /**
  * Represents a game piece. 
  * @classdesc Parent class of Round, Triangle, Square, and Pyramid. Find the
@@ -104,68 +103,11 @@ Piece.prototype.updatePosition = function (destination, obj) {
 	// Finally, update list of legal positions.
 	obj.findLegalMoves();
 
-	// Here's the only real linkup to the interface.
-	drawPieces();
+	// Here's the only real linkup to the interface. Irrelevant for now.
+	//drawPieces();
 };
 
-/*************************************************************************/
-
-/**
- * Represents a round game piece. 
- * @classdesc Rounds move a single square, diagonally, and never fly.
- *			  Light values: 2, 4, 6, 8, and their squares.
- *			  Dark values:  3, 5, 7, 9, and their squares.
- * @constructor
- * @extends Piece
- * @param {string} color - Light or dark; which player controls this piece.
- * @param {number[]} position - Position on the board. Two integers, [x, y].
- * @param {number} value - This piece's number value.
- */
-function Round(color, position, value) {
-	Piece.call(this, color, position);
-	this.value = value;
-	this.addToBoard();
-	this.findLegalMoves();
-}
-
-Round.prototype = Object.create(Piece.prototype);
-Round.prototype.constructor = Round;
-
-
-/**
- * Populates Piece.possibleMoves with moves that are on the board, follow this
- * piece's movement rules, and land on empty squares.
- */
-Round.prototype.findLegalMoves = function() {
-	var candidateMoves = [
-		[this.position[0] + 1, this.position[1] + 1],
-		[this.position[0] - 1, this.position[1] + 1],
-		[this.position[0] + 1, this.position[1] - 1],
-		[this.position[0] - 1, this.position[1] - 1],
-	];
-
-	var legalMoves = candidateMoves.filter( move => Piece.prototype
-												.isDestinationInBoard(move));
-		// The "this" keyword returns the Window when called from the console.
-		// Investigate if this is the case when called in-program.
-
-	this.possibleMoves.normal = legalMoves;
-};
-
-
-/**
- * Moves the Round piece. Ensures move is legal. 
- * @param {number[]} destination - A coordinate, [x, y].
- */
-Round.prototype.move = function(destination) {
-	for (var t of this.possibleMoves.normal) {
-	// This is because I cannot find a way to compare internal arrays of arrays
-		if (destination.toString() == t.toString() &&
-			!this.isPieceBlocking(destination)) {
-			Piece.prototype.updatePosition(destination, this);
-		}
-	}
-};
+module.exports.Piece = Piece;
 
 /*************************************************************************/
 
