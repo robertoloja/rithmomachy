@@ -60,4 +60,4 @@ Round.prototype.move = function(destination) {
 	}
 };
 
-module.exports.Round = Round;
+module.exports = Round;
