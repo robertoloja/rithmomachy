@@ -16,6 +16,10 @@ var Piece = require('./Piece.js').Piece;
 function Triangle(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
+	this.possibleMoves = {
+		normal: [],
+		flying: []
+	};
 	this.addToBoard();
 	this.findLegalMoves();
 }
@@ -56,36 +60,23 @@ Triangle.prototype.move = function(destination) {
  * piece's movement rules, and land on empty squares.
  */
 Triangle.prototype.findLegalMoves = function () {
-	var candidateMoves = {
-		normal:	[
-			[this.position[0], this.position[1] - 2],
-			[this.position[0], this.position[1] + 2],
-			[this.position[0] - 2, this.position[1]],
-			[this.position[0] + 2, this.position[1]]
-		],
+	this.possibleMoves.normal = [
+		[this.position[0], this.position[1] - 2],
+		[this.position[0], this.position[1] + 2],
+		[this.position[0] - 2, this.position[1]],
+		[this.position[0] + 2, this.position[1]]
+	].filter(move => this.isDestinationInBoard(move));
 
-		flying: [
-			[this.position[0] - 1, this.position[1] - 2],
-			[this.position[0] + 1, this.position[1] - 2],
-			[this.position[0] - 2, this.position[1] - 1],
-			[this.position[0] - 2, this.position[1] + 1],
-			[this.position[0] - 1, this.position[1] + 2],
-			[this.position[0] + 1, this.position[1] + 2],
-			[this.position[0] + 2, this.position[1] + 1],
-			[this.position[0] + 2, this.position[1] - 1]
-		]
-	};
-
-	candidateMoves.normal = candidateMoves.normal.filter(move => Piece
-												.prototype
-												.isDestinationInBoard(move));
-	
-	candidateMoves.flying = candidateMoves.flying.filter(move => Piece
-												.prototype
-												.isDestinationInBoard(move));
-	
-	this.possibleMoves.normal = candidateMoves.normal;
-	this.possibleMoves.flying = candidateMoves.flying;
+	this.possibleMoves.flying = [
+		[this.position[0] - 1, this.position[1] - 2],
+		[this.position[0] + 1, this.position[1] - 2],
+		[this.position[0] - 2, this.position[1] - 1],
+		[this.position[0] - 2, this.position[1] + 1],
+		[this.position[0] - 1, this.position[1] + 2],
+		[this.position[0] + 1, this.position[1] + 2],
+		[this.position[0] + 2, this.position[1] + 1],
+		[this.position[0] + 2, this.position[1] - 1]
+	].filter(move => this.isDestinationInBoard(move));
 };
 
 module.exports = Triangle;

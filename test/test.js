@@ -11,12 +11,14 @@ describe ('Pieces', function () {
 		it('Create a Round', function () {
 			var round_test = new Round("white", [5,5], 12);
 			assert.equal(round_test.color, "white");
+			assert.equal(round_test.position.toString(), '5,5');
+			assert.equal(round_test.value, 12);
 		});
 
 		it('Move the Round', function () {
 			var round_test = new Round("white", [5,5], 12);
 			
-			// Normal move.
+			// Normal moves.
 			round_test.move([6,6]);
 			assert.equal(round_test.position.toString(), [6,6].toString());
 
@@ -36,6 +38,28 @@ describe ('Pieces', function () {
 		it('Create a Triangle', function () {
 			var triangle_test = new Triangle("white", [5,5], 12);
 			assert.equal(triangle_test.color, "white");
+			assert.equal(triangle_test.position.toString(), [5,5].toString());
+			assert.equal(triangle_test.value, 12);
+		});
+
+		it('Move the Triangle', function () {
+			var triangle_test = new Triangle("white", [5,5], 12);
+			
+			// Normal moves.
+			triangle_test.move([5,7]);
+			assert.equal(triangle_test.position.toString(), [5,7].toString());
+
+			// Prevent move onto another piece.
+			/*
+			var triangle_test1 = new Triangle("white", [7,7], 12);
+			triangle_test.move([7,7]);
+			assert.equal(triangle_test.position.toString(), [6,6].toString());
+
+			// Prevent move off the board.
+			triangle_test.move([5,7]);
+			triangle_test.move([6,8]);
+			assert.equal(triangle_test.position.toString(), [5,7].toString());
+			*/
 		});
 	});
 

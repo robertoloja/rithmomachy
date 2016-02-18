@@ -17,6 +17,10 @@ var Piece = require('./Piece.js').Piece;
 function Square(color, position, value) {
 	Piece.call(this, color, position);
 	this.value = value;
+	this.possibleMoves = {
+		normal: [],
+		flying: []
+	};
 	this.addToBoard();
 	this.findLegalMoves();
 }
@@ -56,36 +60,23 @@ Square.prototype.move = function(destination) {
  * this piece's movement rules.
  */
 Square.prototype.findLegalMoves = function () {
-	var candidateMoves = {
-		normal:	[
-			[this.position[0], this.position[1] - 3],
-			[this.position[0], this.position[1] + 3],
-			[this.position[0] - 3, this.position[1]],
-			[this.position[0] + 3, this.position[1]]
-		],
+	this.possibleMoves.normal = [
+		[this.position[0], this.position[1] - 3],
+		[this.position[0], this.position[1] + 3],
+		[this.position[0] - 3, this.position[1]],
+		[this.position[0] + 3, this.position[1]]
+	].filter(move => this.isDestinationInBoard(move));
 
-		flying: [
-			[this.position[0] - 1, this.position[1] - 3],
-			[this.position[0] + 1, this.position[1] - 3],
-			[this.position[0] - 3, this.position[1] - 1],
-			[this.position[0] - 3, this.position[1] + 1],
-			[this.position[0] - 1, this.position[1] + 3],
-			[this.position[0] + 1, this.position[1] + 3],
-			[this.position[0] + 3, this.position[1] + 1],
-			[this.position[0] + 3, this.position[1] - 1]
-		]
-	};
-
-	candidateMoves.normal = candidateMoves.normal.filter(move => Piece
-												.prototype
-												.isDestinationInBoard(move));
-	
-	candidateMoves.flying = candidateMoves.flying.filter(move => Piece
-												.prototype
-												.isDestinationInBoard(move));
-	
-	this.possibleMoves.normal = candidateMoves.normal;
-	this.possibleMoves.flying = candidateMoves.flying;
+	this.possibleMoves.flying = [
+		[this.position[0] - 1, this.position[1] - 3],
+		[this.position[0] + 1, this.position[1] - 3],
+		[this.position[0] - 3, this.position[1] - 1],
+		[this.position[0] - 3, this.position[1] + 1],
+		[this.position[0] - 1, this.position[1] + 3],
+		[this.position[0] + 1, this.position[1] + 3],
+		[this.position[0] + 3, this.position[1] + 1],
+		[this.position[0] + 3, this.position[1] - 1]
+	].filter(move => this.isDestinationInBoard(move));
 };
 
 module.exports = Square;
