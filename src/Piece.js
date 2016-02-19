@@ -33,45 +33,45 @@ Piece.prototype.isDestinationInBoard = function (destination) {
  * Checks if there is a piece in between this and the destination, including
  * at the destination.
  * @param {number[]} destination - A coordinate, [x,y].
- * @todo Rewrite this stupid function. Rows don't need to be checked if the 
- * movement is vertical, and columns don't need to be checked if the movement
- * is horizontal.
+ * @todo Find a way to write less ugly code.
  * @return true is blocked, false otherwise.
  */
 Piece.prototype.isPieceBlocking = function (destination) {
-	var diff = [this.position[0] - destination[0],
-				this.position[1] - destination[1]];
-
+	// destination is occupied
 	if (gameBoard[destination[1]][destination[0]] !== 0) {
 		return true;
+	}
 
-	// If destination is to the left
-	} else if (diff[0] > 0) {
-		// Check each square till destination
-		for (var i = this.position[0]; i >= destination[0]; i--) {
-			if (gameBoard[i][destination[1]] !== 0) {
-				return true;
+	// vertical move (same file)
+	if (destination[0] === this.position[0]) {
+		if (this.position[1] - destination[1] > 0) { // moving up
+			for (var i = this.position[1] - 1; i > destination[1] + 1; i--) {
+				if (gameBoard[i][destination[0]] !== 0) {
+					return true;
+				}
+			}
+
+		} else if (this.position[1] - destination[1] < 0) { // moving down
+			for (var j = this.position[1] + 1; j < destination[1] - 1; j++) {
+				if (gameBoard[j][destination[0]] !== 0) {
+					return true;
+				}
 			}
 		}
-	// If it's to the right
-	} else if (diff[0] < 0) { 
-		for (var j = this.position[0]; j <= destination[0]; j++) {
-			if (gameBoard[j][destination[1]] !== 0) {
-				return true;
+		
+	// horizontal move (same rank)
+	} else if (destination[1] === this.position[1]) { 
+		if (this.position[0] > destination[0]) { // moving left
+			for (var k = this.position[0] - 1; k > destination[0] + 1; k--) {
+				if (gameBoard[destination[1]][k] !== 0) {
+					return true;
+				}
 			}
-		}
-	// If it's above
-	} else if (diff[1] > 0) {
-		for (var h = this.position[1]; h >= destination[1]; h--) {
-			if (gameBoard[destination[0]][h] !== 0) {
-				return true;
-			}
-		}
-	// If it's below
-	} else if (diff[1] < 0) {
-		for (var k = this.position[1]; k <= destination[1]; k++) {
-			if (gameBoard[destination[0]][k] !== 0) {
-				return true;
+		} else if (this.position[0] < destination[0]) { // moving right
+			for (var l = this.position[0] + 1; l < destination[0] - 1; l++) {
+				if (gameBoard[destination[1]][l] !== 0) {
+					return true;
+				}
 			}
 		}
 	}
