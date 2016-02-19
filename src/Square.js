@@ -27,6 +27,7 @@ function Square(color, position, value) {
 Square.prototype = Object.create(Piece.prototype);
 Square.prototype.constructor = Square;
 
+
 /**
  * Moves the Square piece. Ensures move is legal. 
  * @param {number[]} destination - A coordinate, [x, y].
@@ -37,16 +38,16 @@ Square.prototype.move = function(destination) {
 		if (destination.toString() == t.toString() &&
 			!this.isPieceBlocking(destination)) {
 
-			Piece.prototype.updatePosition(destination, this);
+			this.updatePosition(destination);
 			return 0;
 		}
 	}
 
 	for (var p of this.possibleMoves.flying) {
 		if (destination.toString() == p.toString() &&
-			!this.isPieceBlocking(destination)) {
+			gameBoard[destination[1]][destination[0]] === 0) {
 
-			Piece.prototype.updatePosition(destination, this);
+			this.updatePosition(destination);
 			return 0;
 		}
 	}

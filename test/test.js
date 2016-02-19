@@ -9,89 +9,131 @@ assert = require('assert');
 
 describe ('Piece', function () {
 
-	describe ('Round', function () {
-		var rnd_test = new Round("white", [5,5], 12);
+	beforeEach(function() { // reset gameBoard
+		for (var a = 0; a < gameBoard.length; a++) {
+			for (var b = 0; b < gameBoard[a].length; b++) {
+				gameBoard[a][b] = 0;
+			}
+		}
+	});
 
+	describe ('Round', function () {
 		it('- create a Round', function () {
+			var rnd_test = new Round("white", [5,5], 12);
+
 			assert.equal(rnd_test.color, "white");
 			assert.equal(rnd_test.position.toString(), '5,5');
 			assert.equal(rnd_test.value, 12);
 		});
 
 		describe ('Movement', function () {
-			var rnd_test1 = new Round("white", [7,7], 12);
-
 			it('- normal move', function () {
+				var rnd_test = new Round("white", [5,5], 12);
+
 				rnd_test.move([6,6]);
 				assert.equal(rnd_test.position.toString(), [6,6].toString());
 
 			});
 
 			it('- prevent move onto another piece', function () {
-				rnd_test.move([7,7]);
-				assert.equal(rnd_test.position.toString(), [6,6].toString());
+				var rnd_test = new Round("white", [5,5], 12);
+				var rnd_test1 = new Round("white", [6,6], 12);
+
+				rnd_test.move([6,6]);
+				assert.equal(rnd_test.position.toString(), [5,5].toString());
 			});
 
 			it('- prevent move off the board', function () {
-				rnd_test.move([7,5]);
-				rnd_test.move([9,7]);
-				assert.equal(rnd_test.position.toString(), [7,5].toString());
+				var rnd_test = new Round("white", [5,5], 12);
+
+				rnd_test.move([6,6]);
+				rnd_test.move([7,7]);
+				rnd_test.move([8,8]);
+				assert.equal(rnd_test.position.toString(), [7,7].toString());
 			});
 		});
 	});
 
 
 	describe ('Triangle', function () {
-		var tri_test = new Triangle("white", [5,5], 12);
-
 		it('- create a Triangle', function () {
+			var tri_test = new Triangle("white", [5,5], 12);
 			assert.equal(tri_test.color, "white");
 			assert.equal(tri_test.position.toString(), [5,5].toString());
 			assert.equal(tri_test.value, 12);
 		});
 
 		describe ('Movement', function () {
-			var tri_test1 = new Triangle("white", [7,6], 12);
-			
+
 			it('- normal move', function () {
+				var tri_test = new Triangle("white", [5,5], 12);
 				tri_test.move([5,7]);
 				assert.equal(tri_test.position.toString(), [5,7].toString());
 			});
 
 			it('- flying move', function () {
-				tri_test.move([5,5]); // Reset for test.
+				var tri_test = new Triangle("white", [5,5], 12);
 
 				tri_test.move([6,7]);
 				assert.equal(tri_test.position.toString(), [6,7].toString());
 			});
 
 			it('- prevent move onto another piece', function () {
-				tri_test.move([5,5]); // Reset for test.
+				var tri_test = new Triangle("white", [5,5], 12);
+				var tri_test1 = new Triangle("white", [7,6], 12);
 
 				tri_test.move([7,6]);
 				assert.equal(tri_test.position.toString(), [5,5].toString());
 			});
 
 			it('- prevent move off the board', function () {
-				tri_test.move([5,7]);
-				assert.equal(tri_test.position.toString(), [5,7].toString());
+				var tri_test = new Triangle("white", [5,5], 12);
+				tri_test.move([7,5]);
+				tri_test.move([9,5]);
+				assert.equal(tri_test.position.toString(), [7,5].toString());
 			});
 		});
 	});
 
-	/*
-	describe ('Squares', function () {
-		it('Create a Square', function () {
-			var square_test = new Square("white", [5,5], 12);
-			assert.equal(square_test.color, "white");
-		});
-	});
 
-	describe ('Pyramids', function () {
-		it('Create a Pyramid', function () {
-			var pyramid_test = new Pyramid("white", [5,5], 12);
-			assert.equal(pyramid_test.color, "white");
+	describe ('Squares', function () {
+		it('- create a Square', function () {
+			var sq_test = new Square("white", [5,5], 12);
+
+			assert.equal(sq_test.color, "white");
+			assert.equal(sq_test.position.toString(), [5,5].toString());
+			assert.equal(sq_test.value, 12);
+		});
+
+		describe ('Movement', function () {
+			it('- normal move', function () {
+				var sq_test = new Square("white", [5,5], 12);
+			
+				sq_test.move([5,8]);
+				assert.equal(sq_test.position.toString(), [5,8].toString());
+			});
+
+			it('- flying move', function () {
+				var sq_test = new Square("white", [5,5], 12);
+
+				sq_test.move([6,8]);
+				assert.equal(sq_test.position.toString(), [6,8].toString());
+			});
+
+			it('- prevent move onto another piece', function () {
+				var sq_test = new Square("white", [5,5], 12);
+				var sq_test1 = new Square("white", [4,8], 12);
+
+				sq_test.move([4,8]);
+				assert.equal(sq_test.position.toString(), [5,5].toString());
+			});
+
+			it('- prevent move off the board', function () {
+				var sq_test = new Square("white", [5,5], 12);
+
+				sq_test.move([8,5]);
+				assert.equal(sq_test.position.toString(), [5,5].toString());
+			});
 		});
 	});
-	*/
 });
