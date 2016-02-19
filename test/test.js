@@ -1,68 +1,86 @@
-var Piece = require('../src/Piece.js');
-var Round = require('../src/Round.js');
-var Triangle = require('../src/Triangle.js');
-var Square = require('../src/Square.js');
-var Pyramid = require('../src/Pyramid.js');
-var gameBoard = require('../src/main.js').gameBoard;
-var assert = require('assert');
+Piece = require('../src/Piece.js');
+Round = require('../src/Round.js');
+Triangle = require('../src/Triangle.js');
+Square = require('../src/Square.js');
+Pyramid = require('../src/Pyramid.js');
+gameBoard = require('../src/main.js').gameBoard;
+assert = require('assert');
 
-describe ('Pieces', function () {
-	describe ('Rounds', function () {
-		it('Create a Round', function () {
-			var round_test = new Round("white", [5,5], 12);
-			assert.equal(round_test.color, "white");
-			assert.equal(round_test.position.toString(), '5,5');
-			assert.equal(round_test.value, 12);
+
+describe ('Piece', function () {
+
+	describe ('Round', function () {
+		var rnd_test = new Round("white", [5,5], 12);
+
+		it('- create a Round', function () {
+			assert.equal(rnd_test.color, "white");
+			assert.equal(rnd_test.position.toString(), '5,5');
+			assert.equal(rnd_test.value, 12);
 		});
 
-		it('Move the Round', function () {
-			var round_test = new Round("white", [5,5], 12);
-			
-			// Normal moves.
-			round_test.move([6,6]);
-			assert.equal(round_test.position.toString(), [6,6].toString());
+		describe ('Movement', function () {
+			var rnd_test1 = new Round("white", [7,7], 12);
 
-			// Prevent move onto another piece.
-			var round_test1 = new Round("white", [7,7], 12);
-			round_test.move([7,7]);
-			assert.equal(round_test.position.toString(), [6,6].toString());
+			it('- normal move', function () {
+				rnd_test.move([6,6]);
+				assert.equal(rnd_test.position.toString(), [6,6].toString());
 
-			// Prevent move off the board.
-			round_test.move([5,7]);
-			round_test.move([6,8]);
-			assert.equal(round_test.position.toString(), [5,7].toString());
-		});
-	});
+			});
 
-	describe ('Triangles', function () {
-		it('Create a Triangle', function () {
-			var triangle_test = new Triangle("white", [5,5], 12);
-			assert.equal(triangle_test.color, "white");
-			assert.equal(triangle_test.position.toString(), [5,5].toString());
-			assert.equal(triangle_test.value, 12);
-		});
+			it('- prevent move onto another piece', function () {
+				rnd_test.move([7,7]);
+				assert.equal(rnd_test.position.toString(), [6,6].toString());
+			});
 
-		it('Move the Triangle', function () {
-			var triangle_test = new Triangle("white", [5,5], 12);
-			
-			// Normal moves.
-			triangle_test.move([5,7]);
-			assert.equal(triangle_test.position.toString(), [5,7].toString());
-
-			// Prevent move onto another piece.
-			/*
-			var triangle_test1 = new Triangle("white", [7,7], 12);
-			triangle_test.move([7,7]);
-			assert.equal(triangle_test.position.toString(), [6,6].toString());
-
-			// Prevent move off the board.
-			triangle_test.move([5,7]);
-			triangle_test.move([6,8]);
-			assert.equal(triangle_test.position.toString(), [5,7].toString());
-			*/
+			it('- prevent move off the board', function () {
+				rnd_test1.move([6,8]);
+				assert.equal(rnd_test1.position.toString(), [7,7].toString());
+			});
 		});
 	});
 
+
+	describe ('Triangle', function () {
+		var tri_test = new Triangle("white", [5,5], 12);
+
+		it('- create a Triangle', function () {
+			assert.equal(tri_test.color, "white");
+			assert.equal(tri_test.position.toString(), [5,5].toString());
+			assert.equal(tri_test.value, 12);
+		});
+
+		describe ('Movement', function () {
+			var tri_test1 = new Triangle("white", [7,6], 12);
+			
+			it('- normal move', function () {
+				tri_test.move([5,7]);
+				assert.equal(tri_test.position.toString(), [5,7].toString());
+			});
+
+			it('- flying move', function () {
+				tri_test.move([5,5]); // Reset for test.
+
+				tri_test.move([6,7]);
+				assert.equal(tri_test.position.toString(), [6,7].toString());
+			});
+
+			it('- prevent move onto another piece', function () {
+				tri_test.move([5,5]); // Reset for test.
+
+				tri_test.move([7,6]);
+				assert.equal(tri_test.position.toString(), [5,5].toString());
+			});
+
+			it('- prevent move off the board', function () {
+				console.log(gameBoard[7][5]);
+				console.log(tri_test.isPieceBlocking([5,7]));
+				tri_test.move([5,7]);
+				assert.equal(tri_test.position.toString(), [5,7].toString());
+			});
+		});
+	});
+
+	/*
 	describe ('Squares', function () {
 		it('Create a Square', function () {
 			var square_test = new Square("white", [5,5], 12);
@@ -76,4 +94,5 @@ describe ('Pieces', function () {
 			assert.equal(pyramid_test.color, "white");
 		});
 	});
+	*/
 });

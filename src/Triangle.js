@@ -1,5 +1,5 @@
-var gameBoard = require('./main.js').gameBoard;
-var Piece = require('./Piece.js').Piece;
+gameBoard = require('./main.js').gameBoard;
+Piece = require('./Piece.js').Piece;
 
 /**
  * Represents a triangular game piece. 
@@ -20,7 +20,6 @@ function Triangle(color, position, value) {
 		normal: [],
 		flying: []
 	};
-	this.addToBoard();
 	this.findLegalMoves();
 }
 
@@ -35,19 +34,19 @@ Triangle.prototype.constructor = Triangle;
  */
 Triangle.prototype.move = function(destination) {
 	for (var t of this.possibleMoves.normal) {
-		if (destination.toString() == t.toString() &&
+		if (destination.toString() === t.toString() &&
 			!this.isPieceBlocking(destination)) {
 
-			Piece.prototype.updatePosition(destination, this);
+			this.updatePosition(destination);
 			return 0;
 		}
 	}
 
 	for (var p of this.possibleMoves.flying) {
-		if (destination.toString() == p.toString() &&
-			!this.isPieceBlocking(destination)) {
+		if (destination.toString() === p.toString() &&
+			gameBoard[destination[1]][destination[0]] === 0) {
 
-			Piece.prototype.updatePosition(destination, this);
+			this.updatePosition(destination);
 			return 0;
 		}
 	}

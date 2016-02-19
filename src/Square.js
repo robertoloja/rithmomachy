@@ -1,5 +1,5 @@
-var gameBoard = require('./main.js').gameBoard;
-var Piece = require('./Piece.js').Piece;
+gameBoard = require('./main.js').gameBoard;
+Piece = require('./Piece.js').Piece;
 
 /**
  * Represents a square game piece. 
@@ -21,7 +21,6 @@ function Square(color, position, value) {
 		normal: [],
 		flying: []
 	};
-	this.addToBoard();
 	this.findLegalMoves();
 }
 

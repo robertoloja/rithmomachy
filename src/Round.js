@@ -1,5 +1,5 @@
-var gameBoard = require('./main.js').gameBoard;
-var Piece = require('./Piece.js').Piece;
+gameBoard = require('./main.js').gameBoard;
+Piece = require('./Piece.js').Piece;
 
 /**
  * Represents a round game piece. 
@@ -18,7 +18,6 @@ function Round(color, position, value) {
 	this.possibleMoves = {
 		normal: []
 	};
-	this.addToBoard();
 	this.findLegalMoves();
 }
 
@@ -47,11 +46,11 @@ Round.prototype.findLegalMoves = function() {
 Round.prototype.move = function(destination) {
 	var normalMoves = this.possibleMoves.normal;
 
-	for (var i in normalMoves) {
+	for (var i of normalMoves) {
 	// This is because I cannot find a way to compare internal arrays of arrays
-		if (destination.toString() === normalMoves[i].toString() &&
+		if (destination.toString() === i.toString() &&
 			!this.isPieceBlocking(destination)) {
-			Piece.prototype.updatePosition(destination, this);
+			this.updatePosition(destination);
 		}
 	}
 };

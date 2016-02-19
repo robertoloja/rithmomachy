@@ -1,4 +1,4 @@
-var gameBoard = require('./main.js').gameBoard;
+gameBoard = require('./main.js').gameBoard;
 
 /**
  * Represents a game piece. 
@@ -11,10 +11,7 @@ var gameBoard = require('./main.js').gameBoard;
 var Piece = function (color, position) {
 	this.color = color;
 	this.position = position;
-	this.possibleMoves = {
-		normal: [],
-		flying: []
-	};
+	this.addToBoard();
 };
 
 
@@ -47,6 +44,7 @@ Piece.prototype.isPieceBlocking = function (destination) {
 
 	if (gameBoard[destination[1]][destination[0]] !== 0) {
 		return true;
+
 	// If destination is to the left
 	} else if (diff[0] > 0) {
 		// Check each square till destination
@@ -93,15 +91,15 @@ Piece.prototype.addToBoard = function () {
  * Changes Piece.position to the destination of a move, updates the game board,
  * recalculates Piece.possibleMoves.
  */
-Piece.prototype.updatePosition = function (destination, obj) {
-	gameBoard[obj.position[1]][obj.position[0]] = 0;
-	gameBoard[destination[1]][destination[0]] = obj;
+Piece.prototype.updatePosition = function (destination) {
+	gameBoard[this.position[1]][this.position[0]] = 0;
+	gameBoard[destination[1]][destination[0]] = this;
 
 	// Copy by value.
-	obj.position = destination.slice();
+	this.position = destination.slice();
 
 	// Finally, update list of legal positions.
-	obj.findLegalMoves();
+	this.findLegalMoves();
 
 	// Here's the only real linkup to the interface. Irrelevant for now.
 	//drawPieces();
