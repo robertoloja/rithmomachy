@@ -33,8 +33,9 @@ describe ('Piece', function () {
 			});
 
 			it('- prevent move off the board', function () {
-				rnd_test1.move([6,8]);
-				assert.equal(rnd_test1.position.toString(), [7,7].toString());
+				rnd_test.move([7,5]);
+				rnd_test.move([9,7]);
+				assert.equal(rnd_test.position.toString(), [7,5].toString());
 			});
 		});
 	});
@@ -72,8 +73,6 @@ describe ('Piece', function () {
 			});
 
 			it('- prevent move off the board', function () {
-				console.log(gameBoard[7][5]);
-				console.log(tri_test.isPieceBlocking([5,7]));
 				tri_test.move([5,7]);
 				assert.equal(tri_test.position.toString(), [5,7].toString());
 			});

@@ -44,12 +44,10 @@ Round.prototype.findLegalMoves = function() {
  * @param {number[]} destination - A coordinate, [x, y].
  */
 Round.prototype.move = function(destination) {
-	var normalMoves = this.possibleMoves.normal;
-
-	for (var i of normalMoves) {
-	// This is because I cannot find a way to compare internal arrays of arrays
+	for (var i of this.possibleMoves.normal) {
 		if (destination.toString() === i.toString() &&
-			!this.isPieceBlocking(destination)) {
+			gameBoard[destination[1]][destination[0]] === 0) {
+
 			this.updatePosition(destination);
 		}
 	}
