@@ -136,4 +136,46 @@ describe ('Piece', function () {
 			});
 		});
 	});
+
+	describe ('Pyramid', function () {
+		it('- create a pyramid', function () {
+			var pyr_test = new Pyramid('white', [5,5],
+				[
+					new Round("white", [5,5], 12),
+					new Triangle("white", [5,5], 12),
+					new Square("white", [5,5], 12)
+				]);
+
+			assert.equal(pyr_test.color, 'white');
+			assert.equal(pyr_test.position.toString(), [5,5].toString());
+			assert.equal(pyr_test.constituents[0].constructor.name, 'Round');
+			assert.equal(pyr_test.constituents[1].constructor.name,'Triangle');
+			assert.equal(pyr_test.constituents[2].constructor.name, 'Square');
+			assert.equal(pyr_test.value, 36);
+		});
+
+		it('- add a piece', function() {
+			var pyr_test = new Pyramid('white', [5,5],
+				[
+					new Round("white", [5,5], 12),
+					new Triangle("white", [5,5], 12),
+				]);
+
+			pyr_test.add(new Square("white", [5,5], 12));
+			assert.equal(pyr_test.constituents[2].constructor.name, 'Square');
+			assert.equal(pyr_test.value, 36);
+		});
+
+		it('- remove a piece', function () {
+			var pyr_test = new Pyramid('white', [5,5],
+				[
+					new Round("white", [5,5], 12),
+					new Triangle("white", [5,5], 12),
+				]);
+
+			pyr_test.remove();
+			assert.equal(true, false);
+		});
+		// TODO: Movement like each constituent Piece.
+	});
 });

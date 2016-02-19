@@ -6,8 +6,6 @@ Piece = require('./Piece.js').Piece;
  * @classdesc Pyramids contain pieces of other types, and can move in the same
  *			  way as any of its constituent pieces. The pyramid's starting
  *			  value is the sum of their constituents.
- *			  Light values: 15, 25, 45, 81,  169, 153, 289.
- *			  Dark values:  28, 49, 66, 120, 121, 225, 361.
  * @constructor
  * @extends Piece
  * @param {string} color - Light or dark; which player controls this piece.
@@ -18,6 +16,11 @@ Piece = require('./Piece.js').Piece;
 function Pyramid(color, position, constituents) {
 	Piece.call(this, color, position);
 	this.constituents = constituents; 
+	this.value = this.calculateValue();
+	this.possibleMoves = {
+		normal: [],
+		flying: []
+	};
 	this.findLegalMoves();
 }
 
@@ -30,7 +33,17 @@ Pyramid.prototype.add = function (piece) {
 };
 
 Pyramid.prototype.remove = function (piece) {
-	// I'll have to find the piece, by shape and value.
+	// I'll have to find the piece by shape and/or value.
+	// This function will need optional parameters.
+};
+
+Pyramid.prototype.calculateValue = function () {
+	var sum = 0;
+
+	for (var piece of this.constituents) {
+		sum += piece.value;
+	}
+	return sum;
 };
 
 Pyramid.prototype.findLegalMoves = function () {
