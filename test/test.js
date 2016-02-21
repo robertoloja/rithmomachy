@@ -1,3 +1,4 @@
+// TODO: Pyramid, remove and movement.
 Piece = require('../src/Piece.js');
 Round = require('../src/Round.js');
 Triangle = require('../src/Triangle.js');
@@ -176,6 +177,31 @@ describe ('Piece', function () {
 			pyr_test.remove();
 			assert.equal(true, false);
 		});
-		// TODO: Movement like each constituent Piece.
+
+		describe('Movement', function () {
+			it('- move like a Round', function () {
+				var pyr_test = new Pyramid("white", [6,4], [
+						new Round('white', [6,4], 12),
+						new Triangle('white', [6,4], 12),
+				]);
+
+				var pyr_test1 = new Pyramid("white", [6,6], [
+						new Round('white', [6,6], 12),
+						new Triangle('white', [6,6], 12),
+				]);
+
+				pyr_test.move([7,5]);
+				pyr_test.move([6,6]);
+				assert.equal(rnd_test.position.toString(), [5,5].toString());
+			});
+
+			it('- move like a Triangle', function () {
+				assert.equal(true, false);
+			});
+
+			it('- move like a Square', function () {
+				assert.equal(true, false);
+			});
+		});
 	});
 });
