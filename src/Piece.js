@@ -1,4 +1,4 @@
-gameBoard = require('./main.js').gameBoard;
+gameBoard = require('./main').gameBoard;
 
 /**
  * Represents a game piece. 

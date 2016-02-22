@@ -174,8 +174,9 @@ describe ('Piece', function () {
 					new Triangle("white", [5,5], 12),
 				]);
 
-			pyr_test.remove();
-			assert.equal(true, false);
+			pyr_test.remove(1);
+			assert.equal(pyr_test.constituents.length, 1);
+			assert.equal(pyr_test.value, 12);
 		});
 
 		describe('Movement', function () {

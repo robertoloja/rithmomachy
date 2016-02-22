@@ -32,9 +32,9 @@ Pyramid.prototype.add = function (piece) {
 	this.value += piece.value;
 };
 
-Pyramid.prototype.remove = function (piece) {
-	// I'll have to find the piece by shape and/or value.
-	// This function will need optional parameters.
+Pyramid.prototype.remove = function (pieceIndex) {
+	this.value -= this.constituents[pieceIndex].value;
+	this.constituents.pop(pieceIndex, pieceIndex);
 };
 
 Pyramid.prototype.calculateValue = function () {
