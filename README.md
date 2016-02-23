@@ -9,11 +9,18 @@ and [here's](http://jducoeur.org/game-hist/game-recon-rhyth1.html) a more
 thorough look at the rules.
 
 ## Development progress:
-Currently, this implementation includes Rounds, Triangles and Squares, but not
-pyramids. 
+Currently, this implementation includes Rounds, Triangles, Squares and
+Pyramids. They can all move according to (a set of) the rules, but no captures
+are implemented and certainly no victories. 
 
-The pieces can move according to the rules, and they are displayed 
-(crudely) on an html table drawn in index.html.
+Currently, I am striving to take a fully test-driven approach to developing
+this app, using mocha. At any given time in the development cycle, several
+tests will be failing; I am using failing tests as to-do lists. 
 
-I have begun writing tests, using mocha, since it has already become tedious to
-manually test new features or functions.
+## Dependencies:
+The app runs on ES6, whenever possible. I.e., I have been using as much
+ECMAScript6 as Node.js (and, therefore, Google's V8) allows. Nonetheless, 
+since I use JSHint for linting, and have not yet decided on the project's
+deployment platform, 'strict mode' is avoided (e.g. 'var' instead of 'let' and
+'require' rather than 'import'). Still, I use arrow functions liberally and
+periodically check to see if Node has fully caught up to the ES2015 spec. 
