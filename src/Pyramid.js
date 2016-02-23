@@ -12,7 +12,6 @@ Piece = require('./Piece.js').Piece;
  * @param {number[]} position - Position on the board. Two integers, [x, y].
  * @param {Piece[]} constituents - All the Pieces that make up this pyramid.
  */
-
 function Pyramid(color, position, constituents) {
 	Piece.call(this, color, position);
 	this.constituents = constituents; 
@@ -48,7 +47,9 @@ Pyramid.prototype.calculateValue = function () {
 
 Pyramid.prototype.findLegalMoves = function () {
 	for (var piece of this.constituents) {
-		this.possibleMoves = piece.possibleMoves;
+		piece.findLegalMoves();
+		this.possibleMoves.normal.concat(piece.possibleMoves.normal);
+		this.possibleMoves.flying.concat(piece.possibleMoves.flying);
 	}
 };
 

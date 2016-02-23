@@ -35,7 +35,7 @@ Round.prototype.findLegalMoves = function() {
 		[this.position[0] - 1, this.position[1] + 1],
 		[this.position[0] + 1, this.position[1] - 1],
 		[this.position[0] - 1, this.position[1] - 1],
-	].filter( move => Piece.prototype.isDestinationInBoard(move));
+	].filter( move => this.isDestinationInBoard(move));
 };
 
 
