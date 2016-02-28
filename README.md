@@ -17,6 +17,8 @@ Currently, I am striving to take a fully test-driven approach to developing
 this app, using mocha. At any given time in the development cycle, several
 tests will be failing; I am using failing tests as to-do lists. 
 
+This is taking a while, as I am also learning how to write proper tests.
+
 ## Dependencies:
 The app runs on ES6, whenever possible. I.e., I have been using as much
 ECMAScript6 as Node.js (and, therefore, Google's V8) allows. Nonetheless, 
