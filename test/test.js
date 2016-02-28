@@ -1,4 +1,3 @@
-// TODO: Pyramid, remove and movement.
 Piece = require('../src/Piece.js');
 Round = require('../src/Round.js');
 Triangle = require('../src/Triangle.js');
