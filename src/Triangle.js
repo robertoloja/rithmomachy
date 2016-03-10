@@ -28,33 +28,6 @@ Triangle.prototype.constructor = Triangle;
 
 
 /**
- * Moves the Triangle piece. Ensures move is legal. 
- * @param {number[]} destination - A coordinate, [x, y].
- * @return 0 if move completed, -1 otherwise.
- */
-Triangle.prototype.move = function(destination) {
-	for (var t of this.possibleMoves.normal) {
-		if (destination.toString() === t.toString() &&
-			!this.isPieceBlocking(destination)) {
-
-			this.updatePosition(destination);
-			return 0;
-		}
-	}
-
-	for (var p of this.possibleMoves.flying) {
-		if (destination.toString() === p.toString() &&
-			gameBoard[destination[1]][destination[0]] === 0) {
-
-			this.updatePosition(destination);
-			return 0;
-		}
-	}
-	return -1;
-};
-
-
-/**
  * Populates Piece.possibleMoves with moves that are on the board, follow this
  * piece's movement rules, and land on empty squares.
  */

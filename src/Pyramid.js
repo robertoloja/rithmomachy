@@ -53,4 +53,7 @@ Pyramid.prototype.findLegalMoves = function () {
 	}
 };
 
+Pyramid.prototype.move = function (position) {
+};
+
 module.exports = Pyramid;
