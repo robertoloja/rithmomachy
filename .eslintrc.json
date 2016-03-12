@@ -1,6 +1,7 @@
 {
     "extends": "airbnb",
     "plugins": [
-        "react"
+        "react",
+		"mocha"
     ]
 }

@@ -1,207 +1,202 @@
-Piece = require('../src/Piece.js');
-Round = require('../src/Round.js');
-Triangle = require('../src/Triangle.js');
-Square = require('../src/Square.js');
-Pyramid = require('../src/Pyramid.js');
-gameBoard = require('../src/main.js').gameBoard;
-assert = require('assert');
+const Round = require('../src/Round.js');
+const Triangle = require('../src/Triangle.js');
+const Square = require('../src/Square.js');
+const Pyramid = require('../src/Pyramid.js');
+const gameBoard = require('../src/main.js').gameBoard;
+const assert = require('assert');
+const describe = require('mocha').describe;
+const beforeEach = require('mocha').beforeEach;
+const it = require('mocha').it;
 
 
-describe ('Piece', function () {
+describe('Piece', () => {
+  beforeEach(() => { // reset gameBoard
+    for (let a = 0; a < gameBoard.length; a++) {
+      for (let b = 0; b < gameBoard[a].length; b++) {
+        gameBoard[a][b] = 0;
+      }
+    }
+  });
 
-	beforeEach(function() { // reset gameBoard
-		for (var a = 0; a < gameBoard.length; a++) {
-			for (var b = 0; b < gameBoard[a].length; b++) {
-				gameBoard[a][b] = 0;
-			}
-		}
-	});
+  describe('Round', () => {
+    it('- create a Round', () => {
+      const rndTest = new Round('white', [5, 5], 12);
+      assert.equal(rndTest.color, 'white');
+      assert.equal(rndTest.position.toString(), '5, 5');
+      assert.equal(rndTest.value, 12);
+    });
 
-	describe ('Round', function () {
-		it('- create a Round', function () {
-			var rnd_test = new Round("white", [5,5], 12);
+    describe('Movement', () => {
+      it('- normal move', () => {
+        const rndTest = new Round('white', [5, 5], 12);
+        rndTest.move([6, 6]);
+        assert.equal(rndTest.position.toString(), [6, 6].toString());
+      });
 
-			assert.equal(rnd_test.color, "white");
-			assert.equal(rnd_test.position.toString(), '5,5');
-			assert.equal(rnd_test.value, 12);
-		});
+      it('- prevent move onto another piece', () => {
+        const rndTest = new Round('white', [5, 5], 12);
+        const rndTest1 = new Round('white', [6, 6], 12);
+        rndTest.move([6, 6]);
+        assert.equal(rndTest.position.toString(), [5, 5].toString());
+      });
 
-		describe ('Movement', function () {
-			it('- normal move', function () {
-				var rnd_test = new Round("white", [5,5], 12);
-
-				rnd_test.move([6,6]);
-				assert.equal(rnd_test.position.toString(), [6,6].toString());
-
-			});
-
-			it('- prevent move onto another piece', function () {
-				var rnd_test = new Round("white", [5,5], 12);
-				var rnd_test1 = new Round("white", [6,6], 12);
-
-				rnd_test.move([6,6]);
-				assert.equal(rnd_test.position.toString(), [5,5].toString());
-			});
-
-			it('- prevent move off the board', function () {
-				var rnd_test = new Round("white", [5,5], 12);
-
-				rnd_test.move([6,6]);
-				rnd_test.move([7,7]);
-				rnd_test.move([8,8]);
-				assert.equal(rnd_test.position.toString(), [7,7].toString());
-			});
-		});
-	});
+      it('- prevent move off the board', () => {
+        const rndTest = new Round('white', [5, 5], 12);
+        rndTest.move([6, 6]);
+        rndTest.move([7, 7]);
+        rndTest.move([8, 8]);
+        assert.equal(rndTest.position.toString(), [7, 7].toString());
+      });
+    });
+  });
 
 
-	describe ('Triangle', function () {
-		it('- create a Triangle', function () {
-			var tri_test = new Triangle("white", [5,5], 12);
-			assert.equal(tri_test.color, "white");
-			assert.equal(tri_test.position.toString(), [5,5].toString());
-			assert.equal(tri_test.value, 12);
-		});
+  describe('Triangle', () => {
+    it('- create a Triangle', () => {
+      const triTest = new Triangle('white', [5, 5], 12);
+      assert.equal(triTest.color, 'white');
+      assert.equal(triTest.position.toString(), [5, 5].toString());
+      assert.equal(triTest.value, 12);
+    });
 
-		describe ('Movement', function () {
+    describe('Movement', () => {
+      it('- normal move', () => {
+        const triTest = new Triangle('white', [5, 5], 12);
+        triTest.move([5, 7]);
+        assert.equal(triTest.position.toString(), [5, 7].toString());
+      });
 
-			it('- normal move', function () {
-				var tri_test = new Triangle("white", [5,5], 12);
-				tri_test.move([5,7]);
-				assert.equal(tri_test.position.toString(), [5,7].toString());
-			});
+      it('- flying move', () => {
+        const triTest = new Triangle('white', [5, 5], 12);
 
-			it('- flying move', function () {
-				var tri_test = new Triangle("white", [5,5], 12);
+        triTest.move([6, 7]);
+        assert.equal(triTest.position.toString(), [6, 7].toString());
+      });
 
-				tri_test.move([6,7]);
-				assert.equal(tri_test.position.toString(), [6,7].toString());
-			});
+      it('- prevent move onto another piece', () => {
+        const triTest = new Triangle('white', [5, 5], 12);
+        const triTest1 = new Triangle('white', [7, 6], 12);
 
-			it('- prevent move onto another piece', function () {
-				var tri_test = new Triangle("white", [5,5], 12);
-				var tri_test1 = new Triangle("white", [7,6], 12);
+        triTest.move([7, 6]);
+        assert.equal(triTest.position.toString(), [5, 5].toString());
+      });
 
-				tri_test.move([7,6]);
-				assert.equal(tri_test.position.toString(), [5,5].toString());
-			});
-
-			it('- prevent move off the board', function () {
-				var tri_test = new Triangle("white", [5,5], 12);
-				tri_test.move([7,5]);
-				tri_test.move([9,5]);
-				assert.equal(tri_test.position.toString(), [7,5].toString());
-			});
-		});
-	});
+      it('- prevent move off the board', () => {
+        const triTest = new Triangle('white', [5, 5], 12);
+        triTest.move([7, 5]);
+        triTest.move([9, 5]);
+        assert.equal(triTest.position.toString(), [7, 5].toString());
+      });
+    });
+  });
 
 
-	describe ('Squares', function () {
-		it('- create a Square', function () {
-			var sq_test = new Square("white", [5,5], 12);
+  describe('Squares', () => {
+    it('- create a Square', () => {
+      const sqTest = new Square('white', [5, 5], 12);
 
-			assert.equal(sq_test.color, "white");
-			assert.equal(sq_test.position.toString(), [5,5].toString());
-			assert.equal(sq_test.value, 12);
-		});
+      assert.equal(sqTest.color, 'white');
+      assert.equal(sqTest.position.toString(), [5, 5].toString());
+      assert.equal(sqTest.value, 12);
+    });
 
-		describe ('Movement', function () {
-			it('- normal move', function () {
-				var sq_test = new Square("white", [5,5], 12);
-			
-				sq_test.move([5,8]);
-				assert.equal(sq_test.position.toString(), [5,8].toString());
-			});
+    describe('Movement', () => {
+      it('- normal move', () => {
+        const sqTest = new Square('white', [5, 5], 12);
 
-			it('- flying move', function () {
-				var sq_test = new Square("white", [5,5], 12);
+        sqTest.move([5, 8]);
+        assert.equal(sqTest.position.toString(), [5, 8].toString());
+      });
 
-				sq_test.move([6,8]);
-				assert.equal(sq_test.position.toString(), [6,8].toString());
-			});
+      it('- flying move', () => {
+        const sqTest = new Square('white', [5, 5], 12);
 
-			it('- prevent move onto another piece', function () {
-				var sq_test = new Square("white", [5,5], 12);
-				var sq_test1 = new Square("white", [4,8], 12);
+        sqTest.move([6, 8]);
+        assert.equal(sqTest.position.toString(), [6, 8].toString());
+      });
 
-				sq_test.move([4,8]);
-				assert.equal(sq_test.position.toString(), [5,5].toString());
-			});
+      it('- prevent move onto another piece', () => {
+        const sqTest = new Square('white', [5, 5], 12);
+        const sqTest1 = new Square('white', [4, 8], 12);
 
-			it('- prevent move off the board', function () {
-				var sq_test = new Square("white", [5,5], 12);
+        sqTest.move([4, 8]);
+        assert.equal(sqTest.position.toString(), [5, 5].toString());
+      });
 
-				sq_test.move([8,5]);
-				assert.equal(sq_test.position.toString(), [5,5].toString());
-			});
-		});
-	});
+      it('- prevent move off the board', () => {
+        const sqTest = new Square('white', [5, 5], 12);
 
-	describe ('Pyramid', function () {
-		it('- create a pyramid', function () {
-			var pyr_test = new Pyramid('white', [5,5],
-				[
-					new Round("white", [5,5], 12),
-					new Triangle("white", [5,5], 12),
-					new Square("white", [5,5], 12)
-				]);
+        sqTest.move([8, 5]);
+        assert.equal(sqTest.position.toString(), [5, 5].toString());
+      });
+    });
+  });
 
-			assert.equal(pyr_test.color, 'white');
-			assert.equal(pyr_test.position.toString(), [5,5].toString());
-			assert.equal(pyr_test.constituents[0].constructor.name, 'Round');
-			assert.equal(pyr_test.constituents[1].constructor.name,'Triangle');
-			assert.equal(pyr_test.constituents[2].constructor.name, 'Square');
-			assert.equal(pyr_test.value, 36);
-		});
+  describe('Pyramid', () => {
+    it('- create a pyramid', () => {
+      const pyrTest = new Pyramid('white', [5, 5],
+        [
+          new Round('white', [5, 5], 12),
+          new Triangle('white', [5, 5], 12),
+          new Square('white', [5, 5], 12),
+        ]);
 
-		it('- add a piece', function() {
-			var pyr_test = new Pyramid('white', [5,5],
-				[
-					new Round("white", [5,5], 12),
-					new Triangle("white", [5,5], 12),
-				]);
+      assert.equal(pyrTest.color, 'white');
+      assert.equal(pyrTest.position.toString(), [5, 5].toString());
+      assert.equal(pyrTest.constituents[0].constructor.name, 'Round');
+      assert.equal(pyrTest.constituents[1].constructor.name, 'Triangle');
+      assert.equal(pyrTest.constituents[2].constructor.name, 'Square');
+      assert.equal(pyrTest.value, 36);
+    });
 
-			pyr_test.add(new Square("white", [5,5], 12));
-			assert.equal(pyr_test.constituents[2].constructor.name, 'Square');
-			assert.equal(pyr_test.value, 36);
-		});
+    it('- add a piece', () => {
+      const pyrTest = new Pyramid('white', [5, 5],
+        [
+          new Round('white', [5, 5], 12),
+          new Triangle('white', [5, 5], 12),
+        ]);
 
-		it('- remove a piece', function () {
-			var pyr_test = new Pyramid('white', [5,5],
-				[
-					new Round("white", [5,5], 12),
-					new Triangle("white", [5,5], 12),
-				]);
+      pyrTest.add(new Square('white', [5, 5], 12));
+      assert.equal(pyrTest.constituents[2].constructor.name, 'Square');
+      assert.equal(pyrTest.value, 36);
+    });
 
-			pyr_test.remove(1);
-			assert.equal(pyr_test.constituents.length, 1);
-			assert.equal(pyr_test.value, 12);
-		});
+    it('- remove a piece', () => {
+      const pyrTest = new Pyramid('white', [5, 5],
+        [
+          new Round('white', [5, 5], 12),
+          new Triangle('white', [5, 5], 12),
+        ]);
 
-		describe('Movement', function () {
-			it('- move like a Round', function () {
-				var pyr_test = new Pyramid("white", [6,4], [
-						new Round('white', [6,4], 12),
-						new Triangle('white', [6,4], 12),
-				]);
+      pyrTest.remove(1);
+      assert.equal(pyrTest.constituents.length, 1);
+      assert.equal(pyrTest.value, 12);
+    });
 
-				var pyr_test1 = new Pyramid("white", [6,6], [
-						new Round('white', [6,6], 12),
-						new Triangle('white', [6,6], 12),
-				]);
+    describe('Movement', () => {
+      it('- move like a Round', () => {
+        const pyrTest = new Pyramid('white', [6, 4], [
+          new Round('white', [6, 4], 12),
+          new Triangle('white', [6, 4], 12),
+        ]);
 
-				pyr_test.move([7,5]);
-				pyr_test.move([6,6]);
-				assert.equal(pyr_test.position.toString(), [5,5].toString());
-			});
+        const pyrTest1 = new Pyramid('white', [6, 6], [
+          new Round('white', [6, 6], 12),
+          new Triangle('white', [6, 6], 12),
+        ]);
 
-			it('- move like a Triangle', function () {
-				assert.equal(true, false);
-			});
+        pyrTest.move([7, 5]);
+        pyrTest.move([6, 6]);
+        assert.equal(pyrTest.position.toString(), [5, 5].toString());
+      });
 
-			it('- move like a Square', function () {
-				assert.equal(true, false);
-			});
-		});
-	});
+      it('- move like a Triangle', () => {
+        assert.equal(true, false);
+      });
+
+      it('- move like a Square', () => {
+        assert.equal(true, false);
+      });
+    });
+  });
 });
