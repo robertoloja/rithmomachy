@@ -1,4 +1,4 @@
-var EventEmitter = require('event').EventEmitter;
+var EventEmitter = require('events').EventEmitter;
 
 var GameBoard = function () { 
 	this.board = [
@@ -17,6 +17,8 @@ var GameBoard = function () {
 		[0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0] ];
-	this.wasUpdated = new EventEmitter();
+		[0, 0, 0, 0, 0, 0, 0, 0]
+	];
+
+	this.updated = new EventEmitter();
 };

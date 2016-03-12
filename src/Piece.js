@@ -1,5 +1,5 @@
 // TODO: updatePosition should not add the piece to the board.
-gameBoard = require('./main').gameBoard;
+gameBoard = require('./GameBoard');
 
 /**
  * Represents a game piece. 
