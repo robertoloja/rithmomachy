@@ -1,4 +1,3 @@
-gameBoard = require('./main.js').gameBoard;
 Piece = require('./Piece.js').Piece;
 
 /**

@@ -1,3 +1,4 @@
+// TODO: updatePosition should not add the piece to the board.
 gameBoard = require('./main').gameBoard;
 
 /**
@@ -108,7 +109,7 @@ Piece.prototype.updatePosition = function (destination) {
 /**
  * Moves the Piece. Ensures move is legal. 
  * @param {number[]} destination - A coordinate, [x, y].
- * @return 0 if move completed, -1 otherwise.
+ * @return {number} 0 if move completed, -1 otherwise.
  */
 Piece.prototype.move = function(destination) {
 	for (var t of this.possibleMoves.normal) {
@@ -122,7 +123,7 @@ Piece.prototype.move = function(destination) {
 
 	for (var p of this.possibleMoves.flying) {
 		if (destination.toString() === p.toString() &&
-			gameBoard[destination[1]][destination[0]] === 0) {
+			gameBoard[destination[1]][destination[0]] === 0) { // !!!
 
 			this.updatePosition(destination);
 			return 0;

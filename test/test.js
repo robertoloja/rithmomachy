@@ -192,7 +192,7 @@ describe ('Piece', function () {
 
 				pyr_test.move([7,5]);
 				pyr_test.move([6,6]);
-				assert.equal(rnd_test.position.toString(), [5,5].toString());
+				assert.equal(pyr_test.position.toString(), [5,5].toString());
 			});
 
 			it('- move like a Triangle', function () {

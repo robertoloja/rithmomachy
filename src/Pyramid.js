@@ -17,8 +17,8 @@ function Pyramid(color, position, constituents) {
 	this.constituents = constituents; 
 	this.value = this.calculateValue();
 	this.possibleMoves = {
-		normal: [],
-		flying: []
+		normal: new Set(),
+		flying: new Set()
 	};
 	this.findLegalMoves();
 }
@@ -29,11 +29,13 @@ Pyramid.prototype.constructor = Pyramid;
 Pyramid.prototype.add = function (piece) {
 	this.constituents.push(piece);
 	this.value += piece.value;
+	this.findLegalMoves();
 };
 
 Pyramid.prototype.remove = function (pieceIndex) {
 	this.value -= this.constituents[pieceIndex].value;
 	this.constituents.pop(pieceIndex, pieceIndex);
+	this.findLegalMoves();
 };
 
 Pyramid.prototype.calculateValue = function () {
@@ -45,15 +47,28 @@ Pyramid.prototype.calculateValue = function () {
 	return sum;
 };
 
+
 Pyramid.prototype.findLegalMoves = function () {
 	for (var piece of this.constituents) {
 		piece.findLegalMoves();
-		this.possibleMoves.normal.concat(piece.possibleMoves.normal);
-		this.possibleMoves.flying.concat(piece.possibleMoves.flying);
+		piece.possibleMoves.normal.forEach(x =>
+						this.possibleMoves.normal.add(x));
+
+		if (piece.constructor.name !== "Round") {
+			piece.possibleMoves.flying.forEach(x =>
+							this.possibleMoves.flying.add(x));
+		}
 	}
 };
 
-Pyramid.prototype.move = function (position) {
+
+// TODO: Write this in a way that uses the new version of update position.
+Pyramid.prototype.move = function (destination) {
+	if (super.move(destination) === 0) {
+		for (var piece of this.constituents) {
+			piece.position = destination;
+		}
+	}
 };
 
 module.exports = Pyramid;
