@@ -1,4 +1,4 @@
-const Game = function Game(player1, player2) {
+function Game(player1, player2) {
   this.gameBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -19,7 +19,7 @@ const Game = function Game(player1, player2) {
   ];
   this.players = [player1, player2]; // these are playerIDs.
   this.moveList = [];
-};
+}
 
 Game.prototype.resetBoard = function resetBoard() {
 	// Place pieces
@@ -34,6 +34,7 @@ Game.prototype.resetBoard = function resetBoard() {
 Game.prototype.getBoardSquare = function getBoardSquare(coord) {
   return this.gameBoard[coord[1]][coord[0]];
 };
+
 
 /**
  * Move a piece, or capture and move (if destination is occupied).

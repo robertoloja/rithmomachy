@@ -1,4 +1,3 @@
-// TODO: updatePosition should not add the piece to the board.
 'use strict';
 const gameBoard = require('./GameBoard');
 
