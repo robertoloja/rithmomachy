@@ -25,5 +25,9 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/robertoloja/rithmomachy/issues"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^6.1.0",
+    "eslint-plugin-react": "^4.2.1"
   }
 }
