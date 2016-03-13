@@ -17,12 +17,16 @@ function Game(player1, player2) {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ];
-  this.players = [player1, player2]; // these are playerIDs.
+  this.players = [player1, player2]; // these will eventually be playerIDs.
   this.moveList = [];
 }
 
+
+/**
+ * Reset the gameBoard to all zeroes.
+ */
 Game.prototype.resetBoard = function resetBoard() {
-	// Place pieces
+  this.gameBoard.map(x => x.map(() => 0));
 };
 
 
@@ -38,6 +42,7 @@ Game.prototype.getBoardSquare = function getBoardSquare(coord) {
 
 /**
  * Move a piece, or capture and move (if destination is occupied).
+ * @todo Emitters.
  * @param {int[]} from Piece to move; coordinates [x,y] on gameBoard.
  * @param {int[]} to Move destination; coordinates [x,y] on gameBoard.
  * @return
@@ -51,5 +56,17 @@ Game.prototype.move = function move(from, to) {
     }
     this.gameBoard[to[1]][to[0]] = this.getBoardSquare(from);
     this.gameBoard[from[1]][from[0]] = 0;
+    // emit?
   }
+};
+
+
+/**
+ * Capture a piece.
+ * @todo The entire thing. This is a doozy.
+ * @param {int[]} defender The coordinates ([x,y]) of the defending piece.
+ * @return int An error code; -1 if the capture is not possible, 0 if it is.
+ */
+Game.prototype.capture = function capture(defender) {
+  return defender;
 };
