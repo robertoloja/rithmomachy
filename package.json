@@ -30,5 +30,8 @@
     "eslint-config-airbnb": "^6.1.0",
     "eslint-plugin-mocha": "^2.0.0",
     "eslint-plugin-react": "^4.2.1"
+  },
+  "dependencies": {
+    "express": "^4.13.4"
   }
 }
