@@ -1,4 +1,4 @@
-const Piece = require('./Piece');
+'use strict';
 const Round = require('./Round');
 const Triangle = require('./Triangle');
 const Square = require('./Square');
@@ -46,6 +46,7 @@ Game.prototype.makePiece = function makePiece(position, value) {
     if (Type.prototype.possibleValues.white.concat(
         Type.prototype.possibleValues.black).indexOf(value) !== -1) {
       this.setBoardSquare(new Type(value));
+      return;
     }
   }
 };
@@ -74,8 +75,8 @@ Game.prototype.getBoardSquare = function getBoardSquare(coord) {
  * @return
  */
 Game.prototype.move = function move(from, to) {
-  if (this.getBoardSquare(from) === 0) {// pre-move capture
-    this.capture(from, to);
+  if (this.getBoardSquare(from) === 0) {// pre-move capture -- What? This makes
+    this.capture(from, to);             // no sense.
   } else if (this.getBoardSquare(from).moveIsValid(from, to)) {
     if (this.getBoardSquare(to) !== 0) {// capture and move
       this.capture(from, to);

@@ -1,5 +1,5 @@
 'use strict';
-const Piece = require('./Piece.js').Piece;
+const Piece = require('./Piece.js');
 
 /**
  * Represents a round game piece.
@@ -24,16 +24,19 @@ Round.prototype.possibleValues = {
 };
 
 /**
- * Populates Piece.possibleMoves with moves that are on the board, follow this
- * piece's movement rules, and land on empty squares.
+ * Determine whether an attempted move is a legal move.
+ * @param {int[]} from Origin coordinates, [x, y].
+ * @param {int[]} to Destination coordinates, [x, y].
  */
-Round.prototype.findLegalMoves = function findLegalMoves() {
-  this.possibleMoves.normal = [
-    [this.position[0] + 1, this.position[1] + 1],
-    [this.position[0] - 1, this.position[1] + 1],
-    [this.position[0] + 1, this.position[1] - 1],
-    [this.position[0] - 1, this.position[1] - 1],
-  ].filter(move => this.isDestinationInBoard(move));
+Round.prototype.moveIsValidNormal = function moveIsValidNormal(from, to) {
+  let ret = false;
+  if ((to[0] === from[0] + 1 && to[1] === from[1] + 1) ||
+      (to[0] === from[0] - 1 && to[1] === from[1] + 1) ||
+      (to[0] === from[0] - 1 && to[1] === from[1] - 1) ||
+      (to[0] === from[0] + 1 && to[1] === from[1] - 1)) {
+    ret = true;
+  }
+  return ret;
 };
 
 

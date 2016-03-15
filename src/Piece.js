@@ -28,6 +28,7 @@ function Piece(value, color) {
 /**
  * Find the piece's color based on its value.
  * @param {int} value The piece's value.
+ * @return {String} The piece's color.
  */
 Piece.prototype.findColor = function findColor(value) {
   let ret;
