@@ -8,22 +8,20 @@ const Piece = require('./Piece.js').Piece;
  *			  Dark values:  3, 5, 7, 9, and their squares.
  * @constructor
  * @extends Piece
- * @param {string} color - Light or dark; which player controls this piece.
- * @param {number[]} position - Position on the board. Two integers, [x, y].
  * @param {number} value - This piece's number value.
+ * @return {Round} or false.
  */
-function Round(color, position, value) {
-  Piece.call(this, color, position);
-  this.value = value;
-  this.possibleMoves = {
-    normal: [],
-  };
-  this.findLegalMoves();
+function Round(value) {
+  Piece.call(value, this.findColor(value));
 }
 
 Round.prototype = Object.create(Piece.prototype);
 Round.prototype.constructor = Round;
 
+Round.prototype.possibleValues = {
+  white: [2, 4, 6, 8, 16, 36, 64],
+  black: [3, 5, 7, 9, 25, 49, 81],
+};
 
 /**
  * Populates Piece.possibleMoves with moves that are on the board, follow this
@@ -38,19 +36,5 @@ Round.prototype.findLegalMoves = function findLegalMoves() {
   ].filter(move => this.isDestinationInBoard(move));
 };
 
-
-/**
- * Moves the Round piece. Ensures move is legal.
- * @param {number[]} destination - A coordinate, [x, y].
- */
-Round.prototype.move = function move(destination) {
-  for (const i of this.possibleMoves.normal) {
-    if (destination.toString() === i.toString() &&
-      gameBoard[destination[1]][destination[0]] === 0) {
-
-      this.updatePosition(destination);
-    }
-  }
-};
 
 module.exports = Round;

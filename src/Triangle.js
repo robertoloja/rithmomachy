@@ -14,13 +14,7 @@ const Piece = require('./Piece.js').Piece;
  * @param {number} value - This piece's number value.
  */
 function Triangle(color, position, value) {
-  Piece.call(this, color, position);
-  this.value = value;
-  this.possibleMoves = {
-    normal: [],
-    flying: [],
-  };
-  this.findLegalMoves();
+  //Piece.call(this, color, position);
 }
 
 Triangle.prototype = Object.create(Piece.prototype);

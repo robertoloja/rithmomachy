@@ -1,3 +1,9 @@
+const Piece = require('./Piece');
+const Round = require('./Round');
+const Triangle = require('./Triangle');
+const Square = require('./Square');
+
+
 function Game(player1, player2) {
   this.gameBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -27,6 +33,26 @@ function Game(player1, player2) {
  */
 Game.prototype.resetBoard = function resetBoard() {
   this.gameBoard.map(x => x.map(() => 0));
+};
+
+
+/**
+ * Factory method for Pieces.
+ * @param {int[]} position The position in this.gameBoard, [x,y].
+ * @param {int} value The value of the piece.
+ */
+Game.prototype.makePiece = function makePiece(position, value) {
+  for (const Type of [Round, Triangle, Square]) {
+    if (Type.prototype.possibleValues.white.concat(
+        Type.prototype.possibleValues.black).indexOf(value) !== -1) {
+      this.setBoardSquare(new Type(value));
+    }
+  }
+};
+
+
+Game.prototype.setBoardSquare = function setBoardSquare(coord, value) {
+  this.gameBoard[coord[1]][coord[0]] = value;
 };
 
 
@@ -70,3 +96,5 @@ Game.prototype.move = function move(from, to) {
 Game.prototype.capture = function capture(defender) {
   return defender;
 };
+
+module.exports.Game = Game;
