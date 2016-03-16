@@ -9,40 +9,49 @@ const Piece = require('./Piece.js').Piece;
  *			  Dark values:  12, 16, 30, 36, 56, 64, 90, 100.
  * @constructor
  * @extends Piece
- * @param {string} color - Light or dark; which player controls this piece.
- * @param {number[]} position - Position on the board. Two integers, [x, y].
  * @param {number} value - This piece's number value.
  */
 function Triangle(color, position, value) {
-  //Piece.call(this, color, position);
+  Piece.call(value, this.findColor(value));
 }
 
 Triangle.prototype = Object.create(Piece.prototype);
 Triangle.prototype.constructor = Triangle;
 
+Triangle.prototype.possibleValues = {
+  white: [6, 20, 42, 72, 9, 25, 49, 81],
+  black: [12, 30, 56, 90, 16, 36, 64, 100],
+};
 
 /**
- * Populates Piece.possibleMoves with moves that are on the board, follow this
- * piece's movement rules, and land on empty squares.
+ * Determine whether an attempted normal move is a legal move.
+ * @param {int[]} from Origin coordinates, [x, y].
+ * @param {int[]} to Destination coordinates, [x, y].
  */
-Triangle.prototype.findLegalMoves = function findLegalMoves() {
-  this.possibleMoves.normal = [
-    [this.position[0], this.position[1] - 2],
-    [this.position[0], this.position[1] + 2],
-    [this.position[0] - 2, this.position[1]],
-    [this.position[0] + 2, this.position[1]],
-  ].filter(move => this.isDestinationInBoard(move));
+Triangle.prototype.moveIsValidNormal = function moveIsValidNormal(from, to) {
+  let ret = false;
+  if ((to[0] === from[0] && to[1] === from[1] + 2) ||
+      (to[0] === from[0] && to[1] === from[1] - 2) ||
+      (to[0] === from[0] - 2 && to[1] === from[1]) ||
+      (to[0] === from[0] + 2 && to[1] === from[1])) {
+    ret = true;
+  }
+  return ret;
+};
 
-  this.possibleMoves.flying = [
-    [this.position[0] - 1, this.position[1] - 2],
-    [this.position[0] + 1, this.position[1] - 2],
-    [this.position[0] - 2, this.position[1] - 1],
-    [this.position[0] - 2, this.position[1] + 1],
-    [this.position[0] - 1, this.position[1] + 2],
-    [this.position[0] + 1, this.position[1] + 2],
-    [this.position[0] + 2, this.position[1] + 1],
-    [this.position[0] + 2, this.position[1] - 1],
-  ].filter(move => this.isDestinationInBoard(move));
+Triangle.prototype.moveIsValidFlying = function moveIsValidFlying(from, to) {
+  let ret = false;
+  if ((to[0] === from[0] - 1 && to[1] === from[1] - 2) ||
+      (to[0] === from[0] + 1 && to[1] === from[1] - 2) ||
+      (to[0] === from[0] - 2 && to[1] === from[1] - 1) ||
+      (to[0] === from[0] - 2 && to[1] === from[1] + 1) ||
+      (to[0] === from[0] - 1 && to[1] === from[1] + 2) ||
+      (to[0] === from[0] + 1 && to[1] === from[1] + 2) ||
+      (to[0] === from[0] + 2 && to[1] === from[1] + 1) ||
+      (to[0] === from[0] + 2 && to[1] === from[1] - 1)) {
+    ret = true;
+  }
+  return ret;
 };
 
 module.exports = Triangle;

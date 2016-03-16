@@ -52,6 +52,11 @@ Game.prototype.makePiece = function makePiece(position, value) {
 };
 
 
+/**
+ * Set a board square.
+ * @param {int[]} coord An [x,y] coordinate on the board.
+ * @param {var} value Either a Piece of a 0.
+ */
 Game.prototype.setBoardSquare = function setBoardSquare(coord, value) {
   this.gameBoard[coord[1]][coord[0]] = value;
 };

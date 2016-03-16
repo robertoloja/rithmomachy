@@ -28,24 +28,33 @@ Square.prototype.possibleValues = {
  * Populates Piece.possibleMoves with moves that are on the board and follow
  * this piece's movement rules.
  */
-Square.prototype.findLegalMoves = function findLegalMoves() {
-  this.possibleMoves.normal = [
-    [this.position[0], this.position[1] - 3],
-    [this.position[0], this.position[1] + 3],
-    [this.position[0] - 3, this.position[1]],
-    [this.position[0] + 3, this.position[1]],
-  ].filter(move => this.isDestinationInBoard(move));
+Square.prototype.moveIsValidNormal = function moveIsValidNormal(from, to) {
+  let ret = false;
 
-  this.possibleMoves.flying = [
-    [this.position[0] - 1, this.position[1] - 3],
-    [this.position[0] + 1, this.position[1] - 3],
-    [this.position[0] - 3, this.position[1] - 1],
-    [this.position[0] - 3, this.position[1] + 1],
-    [this.position[0] - 1, this.position[1] + 3],
-    [this.position[0] + 1, this.position[1] + 3],
-    [this.position[0] + 3, this.position[1] + 1],
-    [this.position[0] + 3, this.position[1] - 1],
-  ].filter(move => this.isDestinationInBoard(move));
+  if ((to[0] === from[0] && to[1] === from[1] + 3) ||
+      (to[0] === from[0] && to[1] === from[1] - 3) ||
+      (to[0] === from[0] - 3 && to[1] === from[1]) ||
+      (to[0] === from[0] + 3 && to[1] === from[1])) {
+    ret = true;
+  }
+  return ret;
+};
+
+
+Square.prototype.moveIsValidFlying = function moveIsValidFlying(from, to) {
+  let ret = false;
+
+  if ((to[0] === from[0] - 1 && to[1] === from[1] - 3) ||
+      (to[0] === from[0] + 1 && to[1] === from[1] - 3) ||
+      (to[0] === from[0] - 1 && to[1] === from[1] + 3) ||
+      (to[0] === from[0] + 1 && to[1] === from[1] + 3) ||
+      (to[0] === from[0] - 3 && to[1] === from[1] - 1) ||
+      (to[0] === from[0] + 3 && to[1] === from[1] - 1) ||
+      (to[0] === from[0] - 3 && to[1] === from[1] + 1) ||
+      (to[0] === from[0] + 3 && to[1] === from[1] + 1)) {
+    ret = true;
+  }
+  return ret;
 };
 
 module.exports = Square;

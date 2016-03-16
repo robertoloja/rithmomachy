@@ -9,7 +9,6 @@ const Piece = require('./Piece.js');
  * @constructor
  * @extends Piece
  * @param {number} value - This piece's number value.
- * @return {Round} or false.
  */
 function Round(value) {
   Piece.call(value, this.findColor(value));
@@ -24,7 +23,7 @@ Round.prototype.possibleValues = {
 };
 
 /**
- * Determine whether an attempted move is a legal move.
+ * Determine whether an attempted normal move is a legal move.
  * @param {int[]} from Origin coordinates, [x, y].
  * @param {int[]} to Destination coordinates, [x, y].
  */
@@ -39,5 +38,8 @@ Round.prototype.moveIsValidNormal = function moveIsValidNormal(from, to) {
   return ret;
 };
 
+Round.prototype.moveIsValidFlying = function moveIsValidFlying() {
+  return false;
+};
 
 module.exports = Round;

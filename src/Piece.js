@@ -14,11 +14,9 @@ function Piece(value, color) {
 
   this.pieceValues = {
     white: {
-      triangle: [6, 20, 42, 72, 9, 25, 49, 81],
       pyramids: [91],
     },
     black: {
-      triangle: [12, 30, 56, 90, 16, 36, 64, 100],
       pyramid: [190],
     },
   };
