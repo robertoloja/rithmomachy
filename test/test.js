@@ -18,7 +18,6 @@ describe('Piece', () => {
     it('- create a Round', () => {
       game.makePiece([1, 1], 2);
       assert.equal(game.getBoardSquare([1, 1]).color, 'white');
-      console.log(game);
     });
 
     describe('Movement', () => {
