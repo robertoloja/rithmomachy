@@ -75,6 +75,7 @@ Game.prototype.getBoardSquare = function getBoardSquare(coord) {
 /**
  * Move a piece, or capture and move (if destination is occupied).
  * @todo Emitters.
+ * @todo Check if blocked.
  * @param {int[]} from Piece to move; coordinates [x,y] on gameBoard.
  * @param {int[]} to Move destination; coordinates [x,y] on gameBoard.
  * @return
@@ -83,7 +84,7 @@ Game.prototype.move = function move(from, to) {
   const sourcePiece = this.getBoardSquare(from);
   const validity = sourcePiece.moveIsValid(from, to);
 
-  if (sourcePiece.moveIsValid(from, to)) {
+  if (validity === 1) {
     if (this.getBoardSquare(to) !== 0 &&
         this.getBoardSquare(to).color !== sourcePiece.color) {
       this.capture(from, to);
@@ -105,6 +106,36 @@ Game.prototype.move = function move(from, to) {
  */
 Game.prototype.capture = function capture(defender) {
   return defender;
+};
+
+
+/**
+ * Determines if the squares between two positions are unoccupied.
+ * @todo Write the diagonal checks.
+ * @param {int[]} from Source.
+ * @param {int[]} to Destination.
+ * @return {bool} True if the path between 'from' and 'to' is unoccupied.
+ */
+Game.prototype.pathBlocked = function pathBlocked(from, to) {
+  let blocked = true;
+
+  if (from[0] === to[0] &&
+      this.gameBoard
+          .map(x => x[to[0]])
+          .slice(1, -1)
+          .filter(x => x !== 0) === []) { // same file
+    blocked = false;
+  } else if (from[1] === to[1] &&
+             this.gameBoard[from[1]]
+                  .slice(from[0] + 1, to[0])
+                  .filter(x => x !== 0) === []) { // same rank
+    blocked = false;
+  } else if (Math.abs(from[0] - to[0]) === Math.abs(from[1] - to[1])) {
+    // do things, dammit.
+    blocked = 'who knows';
+  }
+
+  return blocked;
 };
 
 module.exports = Game;
