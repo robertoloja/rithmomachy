@@ -45,7 +45,7 @@ Game.prototype.makePiece = function makePiece(position, value) {
   for (const Type of [Round, Triangle, Square]) {
     if (Type.prototype.possibleValues.white.concat(
         Type.prototype.possibleValues.black).indexOf(value) !== -1) {
-      this.setBoardSquare(new Type(value));
+      this.setBoardSquare(position, new Type(value));
       return;
     }
   }
@@ -103,4 +103,4 @@ Game.prototype.capture = function capture(defender) {
   return defender;
 };
 
-module.exports.Game = Game;
+module.exports = Game;

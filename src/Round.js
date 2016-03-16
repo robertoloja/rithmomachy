@@ -11,7 +11,7 @@ const Piece = require('./Piece.js');
  * @param {number} value - This piece's number value.
  */
 function Round(value) {
-  Piece.call(value, this.findColor(value));
+  Piece.call(this, value, this.findColor(value));
 }
 
 Round.prototype = Object.create(Piece.prototype);

@@ -1,29 +1,24 @@
+/* eslint-env node, mocha */
+'use strict';
+const assert = require('assert');
+const Game = require('../src/Game');
 const Round = require('../src/Round.js');
 const Triangle = require('../src/Triangle.js');
 const Square = require('../src/Square.js');
 const Pyramid = require('../src/Pyramid.js');
-const gameBoard = require('../src/main.js').gameBoard;
-const assert = require('assert');
-const describe = require('mocha').describe;
-const beforeEach = require('mocha').beforeEach;
-const it = require('mocha').it;
 
 
 describe('Piece', () => {
+  const game = new Game(1, 2);
   beforeEach(() => { // reset gameBoard
-    for (let a = 0; a < gameBoard.length; a++) {
-      for (let b = 0; b < gameBoard[a].length; b++) {
-        gameBoard[a][b] = 0;
-      }
-    }
+    game.resetBoard();
   });
 
   describe('Round', () => {
     it('- create a Round', () => {
-      const rndTest = new Round('white', [5, 5], 12);
-      assert.equal(rndTest.color, 'white');
-      assert.equal(rndTest.position.toString(), '5, 5');
-      assert.equal(rndTest.value, 12);
+      game.makePiece([1, 1], 2);
+      assert.equal(game.getBoardSquare([1, 1]).color, 'white');
+      console.log(game);
     });
 
     describe('Movement', () => {

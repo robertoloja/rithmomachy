@@ -1,5 +1,5 @@
 'use strict';
-const Piece = require('./Piece.js').Piece;
+const Piece = require('./Piece.js');
 
 /**
  * Represents a triangular game piece.
@@ -12,7 +12,7 @@ const Piece = require('./Piece.js').Piece;
  * @param {number} value - This piece's number value.
  */
 function Triangle(color, position, value) {
-  Piece.call(value, this.findColor(value));
+  Piece.call(this, value, this.findColor(value));
 }
 
 Triangle.prototype = Object.create(Piece.prototype);

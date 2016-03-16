@@ -9,17 +9,8 @@
  * @param {number[]} position - Position on the board. Two integers, [x, y].
  */
 function Piece(value, color) {
-  this.color = color;
   this.value = value;
-
-  this.pieceValues = {
-    white: {
-      pyramids: [91],
-    },
-    black: {
-      pyramid: [190],
-    },
-  };
+  this.color = color;
 }
 
 
@@ -31,11 +22,11 @@ function Piece(value, color) {
 Piece.prototype.findColor = function findColor(value) {
   let ret;
   for (const color in this.possibleValues) {
-    if (this.possibleValues[color].includes(value)) {
+    if (this.possibleValues[color].indexOf(value) !== -1) {
       ret = color;
     }
   }
   return ret;
 };
 
-module.exports.Piece = Piece;
+module.exports = Piece;

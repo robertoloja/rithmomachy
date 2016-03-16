@@ -1,5 +1,5 @@
 'use strict';
-const Piece = require('./Piece.js').Piece;
+const Piece = require('./Piece.js');
 
 /**
  * Represents a square game piece.
@@ -13,7 +13,7 @@ const Piece = require('./Piece.js').Piece;
  * @param {number} value - This piece's number value.
  */
 function Square(value) {
-  Piece.call(value, this.findColor(value));
+  Piece.call(this, value, this.findColor(value));
 }
 
 Square.prototype = Object.create(Piece.prototype);

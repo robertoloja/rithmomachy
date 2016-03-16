@@ -1,5 +1,5 @@
 'use strict';
-const Piece = require('./Piece.js').Piece;
+const Piece = require('./Piece.js');
 
 /**
  * Represents a pyramidal game piece.
@@ -14,7 +14,7 @@ const Piece = require('./Piece.js').Piece;
 function Pyramid(color, constituents) {
   this.constituents = constituents;
   this.value = this.calculateValue();
-  Piece.call(this.value, color);
+  Piece.call(this, this.value, color);
 }
 
 Pyramid.prototype = Object.create(Piece.prototype);
