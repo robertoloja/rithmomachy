@@ -1,5 +1,4 @@
 'use strict';
-
 /**
  * Represents a game piece.
  * @classdesc Parent class of Round, Triangle, Square, and Pyramid. Find the
@@ -25,6 +24,17 @@ Piece.prototype.findColor = function findColor(value) {
     if (this.possibleValues[color].indexOf(value) !== -1) {
       ret = color;
     }
+  }
+  return ret;
+};
+
+Piece.prototype.moveIsValid = function moveIsValid(from, to) {
+  let ret = false;
+
+  if (this.moveIsValidNormal(from, to)) {
+    ret = 1;
+  } else if (this.moveIsValidFlying(from, to)) {
+    ret = 2;
   }
   return ret;
 };

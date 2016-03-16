@@ -80,15 +80,19 @@ Game.prototype.getBoardSquare = function getBoardSquare(coord) {
  * @return
  */
 Game.prototype.move = function move(from, to) {
-  if (this.getBoardSquare(from) === 0) {// pre-move capture -- What? This makes
-    this.capture(from, to);             // no sense.
-  } else if (this.getBoardSquare(from).moveIsValid(from, to)) {
-    if (this.getBoardSquare(to) !== 0) {// capture and move
+  const sourcePiece = this.getBoardSquare(from);
+  const validity = sourcePiece.moveIsValid(from, to);
+
+  if (sourcePiece.moveIsValid(from, to)) {
+    if (this.getBoardSquare(to) !== 0 &&
+        this.getBoardSquare(to).color !== sourcePiece.color) {
       this.capture(from, to);
+    } else if (this.getBoardSquare(to) === 0) {
+      this.gameBoard[to[1]][to[0]] = this.getBoardSquare(from);
+      this.gameBoard[from[1]][from[0]] = 0;
     }
-    this.gameBoard[to[1]][to[0]] = this.getBoardSquare(from);
-    this.gameBoard[from[1]][from[0]] = 0;
     // emit?
+    console.log(this.gameBoard);
   }
 };
 
