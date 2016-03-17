@@ -48,6 +48,7 @@ Game.prototype.resetBoard = function resetBoard() {
  * @param {Number[]} position The position in this.gameBoard, [x,y].
  * @param {Number} value The value of the piece.
  * @param {String} color The color of the piece.
+ * @param {String} type The type of piece.
  */
 Game.prototype.makePiece = function makePiece(position, value, color, type) {
   let Type = '';

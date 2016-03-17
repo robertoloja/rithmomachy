@@ -17,7 +17,7 @@ describe('Piece', () => {
 
   describe('Round', () => {
     it('- create a Round', () => {
-      game.makePiece([1, 1], 2);
+      game.makePiece([1, 1], 2, 'white', 'round');
       assert.equal(game.getBoardSquare([1, 1]).color, 'white');
     });
 
@@ -26,19 +26,31 @@ describe('Piece', () => {
         game.move([1, 1], [2, 2]);
         assert.notEqual(game.getBoardSquare([2, 2]), 0);
         assert.equal(game.getBoardSquare([1, 1]), 0);
+
+        game.makePiece([1, 3], 4, 'white', 'round');
+        game.move([2, 2], [1, 3]);
+        assert.notEqual(game.getBoardSquare([2, 2]), 0);
+      });
+    });
+
+    describe('Capture', () => {
+      it('- by encounter', () => {
+        assert.equal(true, false);
       });
     });
   });
-/*
 
   describe('Triangle', () => {
     it('- create a Triangle', () => {
-      assert.equal(false, true);
+      game.makePiece([4, 4], 6);
+      assert.notEqual(game.getBoardSquare([4, 4].color, 'white'));
     });
 
     describe('Movement', () => {
       it('- normal move', () => {
-        assert.equal(false, true);
+        game.move([4, 4], [6, 4]);
+        assert.notEqual(game.getBoardSquare([6, 4], 0));
+        assert.equal([4, 4], 0);
       });
 
       it('- flying move', () => {
@@ -56,6 +68,7 @@ describe('Piece', () => {
   });
 
 
+/*
   describe('Squares', () => {
     it('- create a Square', () => {
       assert.equal(false, true);
