@@ -2,6 +2,7 @@
 const Round = require('./Round');
 const Triangle = require('./Triangle');
 const Square = require('./Square');
+const range = require('./functions').range;
 
 
 function Game(player1, player2) {
@@ -129,8 +130,18 @@ Game.prototype.pathBlocked = function pathBlocked(from, to) {
                   .slice(from[0] + 1, to[0])
                   .filter(x => x !== 0) === []) { // same rank
     blocked = false;
-  } else if (Math.abs(from[0] - to[0]) === Math.abs(from[1] - to[1])) { // diag
-    blocked = 'who knows';
+  } else if (Math.abs(from[0] - to[0]) === Math.abs(from[1] - to[1])) {
+    // diagonal
+    blocked = false;
+    const xRange = range(from[0], to[0]).slice(1);
+    const yRange = range(from[1], to[1]).slice(1);
+
+    for (const i in xRange) {
+      if (this.getBoardSquare([xRange[i], yRange[i]]) !== 0) {
+        blocked = true;
+        break;
+      }
+    }
   }
 
   return blocked;
