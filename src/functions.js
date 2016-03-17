@@ -41,7 +41,7 @@ function range(start, end, interval) {
     diff = (first > last) ? -1 : 1;
   }
 
-  for (let i = first; diff !== 0 && (first > last ? i >= last : i <= last);
+  for (let i = first; diff !== 0 && (first > last ? i > last : i < last);
         i += diff) {
     result.push(i);
   }
