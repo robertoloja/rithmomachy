@@ -4,7 +4,13 @@ const Triangle = require('./Triangle');
 const Square = require('./Square');
 const range = require('./functions').range;
 
-
+/**
+ * A game.
+ * @classdesc Contains most of the game's functionality.
+ * @constructor
+ * @param {Number} player1 The player ID of player 1.
+ * @param {Number} player2 The player ID of player 2.
+ */
 function Game(player1, player2) {
   this.gameBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -39,8 +45,8 @@ Game.prototype.resetBoard = function resetBoard() {
 
 /**
  * Factory method for Pieces.
- * @param {int[]} position The position in this.gameBoard, [x,y].
- * @param {int} value The value of the piece.
+ * @param {Number[]} position The position in this.gameBoard, [x,y].
+ * @param {Number} value The value of the piece.
  */
 Game.prototype.makePiece = function makePiece(position, value) {
   for (const Type of [Round, Triangle, Square]) {
@@ -55,7 +61,7 @@ Game.prototype.makePiece = function makePiece(position, value) {
 
 /**
  * Set a board square.
- * @param {int[]} coord An [x,y] coordinate on the board.
+ * @param {Number[]} coord An [x,y] coordinate on the board.
  * @param {var} value Either a Piece of a 0.
  */
 Game.prototype.setBoardSquare = function setBoardSquare(coord, value) {
@@ -64,7 +70,7 @@ Game.prototype.setBoardSquare = function setBoardSquare(coord, value) {
 
 
 /**
- * Fetch a square from the board, whether it is a Piece of a zero.
+ * Fetch a square from the board, whether it is a Piece or a zero.
  * @param {Number[]} coord In [x,y] format.
  * @return Piece
  */
@@ -77,23 +83,27 @@ Game.prototype.getBoardSquare = function getBoardSquare(coord) {
  * Move a piece, or capture and move (if destination is occupied).
  * @todo Emitters.
  * @todo Check if blocked.
- * @param {int[]} from Piece to move; coordinates [x,y] on gameBoard.
- * @param {int[]} to Move destination; coordinates [x,y] on gameBoard.
+ * @param {Number[]} from Piece to move; coordinates [x,y] on gameBoard.
+ * @param {Number[]} to Move destination; coordinates [x,y] on gameBoard.
  * @return
  */
 Game.prototype.move = function move(from, to) {
   const sourcePiece = this.getBoardSquare(from);
-  const validity = sourcePiece.moveIsValid(from, to);
+  const valid = (this.isOnBoard(to) ? sourcePiece.moveIsValid(from, to) : 0);
 
-  if (validity === 1) {
+  if (valid === 1 && !this.pathBlocked(from, to)) {
     if (this.getBoardSquare(to) !== 0 &&
         this.getBoardSquare(to).color !== sourcePiece.color) {
       this.capture(from, to);
-    } else if (this.getBoardSquare(to) === 0) {
+    }
+
+    if (this.getBoardSquare(to) === 0) {
       this.gameBoard[to[1]][to[0]] = this.getBoardSquare(from);
       this.gameBoard[from[1]][from[0]] = 0;
     }
-    // emit?
+  } else if (valid === 2 && this.getBoardSquare(to) === 0) {
+    this.gameBoard[to[1]][to[0]] = this.getBoardSquare(from);
+    this.gameBoard[from[1]][from[0]] = 0;
   }
 };
 
@@ -101,8 +111,8 @@ Game.prototype.move = function move(from, to) {
 /**
  * Capture a piece.
  * @todo The entire thing. This is a doozy.
- * @param {int[]} defender The coordinates ([x,y]) of the defending piece.
- * @return int An error code; -1 if the capture is not possible, 0 if it is.
+ * @param {Number[]} defender The coordinates ([x,y]) of the defending piece.
+ * @return Number An error code; -1 if the capture is not possible, 0 if it is.
  */
 Game.prototype.capture = function capture(defender) {
   return defender;
@@ -111,9 +121,8 @@ Game.prototype.capture = function capture(defender) {
 
 /**
  * Determines if the squares between two positions are unoccupied.
- * @todo Write the diagonal checks.
- * @param {int[]} from Source.
- * @param {int[]} to Destination.
+ * @param {Number[]} from Source.
+ * @param {Number[]} to Destination.
  * @return {bool} True if the path between 'from' and 'to' is unoccupied.
  */
 Game.prototype.pathBlocked = function pathBlocked(from, to) {
@@ -145,6 +154,20 @@ Game.prototype.pathBlocked = function pathBlocked(from, to) {
   }
 
   return blocked;
+};
+
+
+/**
+ *
+ */
+Game.prototype.isOnBoard = function isOnBoard(coord) {
+  let result = true;
+
+  if (coord[1] >= this.gameBoard.length || coord[1] < 0 ||
+      coord[0] >= this.gameBoard[0].length || coord[0] < 0) {
+    result = false;
+  }
+  return result;
 };
 
 module.exports = Game;
