@@ -93,7 +93,6 @@ Game.prototype.move = function move(from, to) {
       this.gameBoard[from[1]][from[0]] = 0;
     }
     // emit?
-    console.log(this.gameBoard);
   }
 };
 
@@ -130,8 +129,7 @@ Game.prototype.pathBlocked = function pathBlocked(from, to) {
                   .slice(from[0] + 1, to[0])
                   .filter(x => x !== 0) === []) { // same rank
     blocked = false;
-  } else if (Math.abs(from[0] - to[0]) === Math.abs(from[1] - to[1])) {
-    // do things, dammit.
+  } else if (Math.abs(from[0] - to[0]) === Math.abs(from[1] - to[1])) { // diag
     blocked = 'who knows';
   }
 
