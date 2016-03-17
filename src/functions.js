@@ -16,23 +16,33 @@ function setFilter(set, callback) {
 
 /**
  * Creates an array, ranging from 'start' to one 'interval' before 'end', and
- * increasing/decreasing by 'interval'.
+ * increasing/decreasing by 'interval'. If only one argument is provided, the
+ * returned array starts from 0 and ends at the given argument.
  * @param {Number} start The first element of the returned array.
  * @param {Number} end The non-inclusive last element of the returned array.
+ * @param {Number} interval Defaults to 1, or -1 if 'start' > 'end'.
  * @return {Array} An Array from 'start' to 'end'.
  */
 function range(start, end, interval) {
   'use strict';
   const result = [];
   let diff = interval;
+  let first = start;
+  let last = end;
 
-  if ((start > end && diff > 0) || (start < end && diff < 0)) {
-    diff = 0;
-  } else if (diff === undefined) {
-    diff = (start > end) ? -1 : 1;
+  if (end === undefined) {
+    last = start;
+    first = 0;
   }
 
-  for (let i = start; i !== end && diff !== 0; i += diff) {
+  if ((first > last && diff > 0) || (first < last && diff < 0)) {
+    diff = 0;
+  } else if (diff === undefined) {
+    diff = (first > last) ? -1 : 1;
+  }
+
+  for (let i = first; diff !== 0 && (first > last ? i >= last : i <= last);
+        i += diff) {
     result.push(i);
   }
   return result;
