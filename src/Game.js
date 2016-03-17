@@ -47,14 +47,21 @@ Game.prototype.resetBoard = function resetBoard() {
  * Factory method for Pieces.
  * @param {Number[]} position The position in this.gameBoard, [x,y].
  * @param {Number} value The value of the piece.
+ * @param {String} color The color of the piece.
  */
-Game.prototype.makePiece = function makePiece(position, value) {
-  for (const Type of [Round, Triangle, Square]) {
-    if (Type.prototype.possibleValues.white.concat(
-        Type.prototype.possibleValues.black).indexOf(value) !== -1) {
-      this.setBoardSquare(position, new Type(value));
-      return;
-    }
+Game.prototype.makePiece = function makePiece(position, value, color, type) {
+  let Type = '';
+
+  if (type === 'round') {
+    Type = Round;
+  } else if (type === 'triangle') {
+    Type = Triangle;
+  } else {
+    Type = Square;
+  }
+
+  if (Type.prototype.possibleValues[color].indexOf(value) !== -1) {
+    this.setBoardSquare(position, new Type(value));
   }
 };
 

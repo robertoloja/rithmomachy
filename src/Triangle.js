@@ -11,7 +11,7 @@ const Piece = require('./Piece.js');
  * @extends Piece
  * @param {number} value - This piece's number value.
  */
-function Triangle(color, position, value) {
+function Triangle(value) {
   Piece.call(this, value, this.findColor(value));
 }
 
