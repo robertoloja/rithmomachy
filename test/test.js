@@ -6,11 +6,12 @@ const Game = require('../src/Game');
 
 describe('Piece', () => {
   const game = new Game(1, 2);
-  beforeEach(() => { // reset gameBoard
-    game.resetBoard();
-  });
 
   describe('Round', () => {
+    beforeEach(() => { // reset gameBoard
+      game.resetBoard();
+    });
+
     it('- create a Round', () => {
       game.makePiece([1, 1], 2, 'white', 'round');
       assert.equal(game.getBoardSquare([1, 1]).color, 'white');
@@ -22,17 +23,19 @@ describe('Piece', () => {
         assert.notEqual(game.getBoardSquare([2, 2]), 0);
         assert.equal(game.getBoardSquare([1, 1]), 0);
 
+        // prevent movement onto another piece.
         game.makePiece([1, 3], 4, 'white', 'round');
         game.move([2, 2], [1, 3]);
         assert.notEqual(game.getBoardSquare([2, 2]), 0);
       });
     });
-    /*
+
     describe('Capture', () => {
       it('- by encounter', () => {
+        // TODO
         assert.equal(true, false);
       });
-    });*/
+    });
   });
 
   describe('Triangle', () => {
@@ -49,7 +52,9 @@ describe('Piece', () => {
       });
 
       it('- flying move', () => {
-        assert.equal(false, true);
+        game.move([6, 4], [4, 3]);
+        assert.equal(game.getBoardSquare([4, 3]).color, 'white');
+        assert.equal(game.getBoardSquare([6, 4]), 0);
       });
     });
   });
