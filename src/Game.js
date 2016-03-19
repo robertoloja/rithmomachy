@@ -140,15 +140,17 @@ Game.prototype.pathBlocked = function pathBlocked(from, to) {
   if (from[0] === to[0] && // same file
       this.gameBoard
           .map(x => x[to[0]])
-          .slice(1, -1)
+          .slice(from[1] < to[1] ? from[1] + 1 : to[1] + 1,
+                 from[1] < to[1] ? to[1] : from[1])
           .filter(x => x !== 0)
           .length === 0) {
     blocked = false;
   } else if (from[1] === to[1] && // same rank
              this.gameBoard[from[1]]
-                  .slice(from[0] + 1, to[0])
-                  .filter(x => x !== 0)
-                  .length === 0) {
+                 .slice(from[0] < to[0] ? from[0] + 1 : to[0] + 1,
+                        from[0] < to[0] ? to[0] : from[0])
+                 .filter(x => x !== 0)
+                 .length === 0) {
     blocked = false;
   } else if (Math.abs(from[0] - to[0]) === Math.abs(from[1] - to[1])) {
     // diagonal
