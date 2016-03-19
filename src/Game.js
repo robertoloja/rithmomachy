@@ -2,6 +2,7 @@
 const Round = require('./Round');
 const Triangle = require('./Triangle');
 const Square = require('./Square');
+const Pyramid = require('./Pyramid');
 const range = require('./functions').range;
 
 /**
@@ -46,24 +47,29 @@ Game.prototype.resetBoard = function resetBoard() {
 /**
  * Factory method for Pieces.
  * @param {Number[]} position The position in this.gameBoard, [x,y].
- * @param {Number} value The value of the piece.
+ * @param {Number} value The value of the piece. In the case of pyramids, this
+ *                       is an Array of Piece objects.
  * @param {String} color The color of the piece.
  * @param {String} type The type of piece.
  */
 Game.prototype.makePiece = function makePiece(position, value, color, type) {
   let Type = {};
 
-  if (type === 'round') {
-    Type = Round;
-  } else if (type === 'triangle') {
-    Type = Triangle;
-  } else {
-    Type = Square;
-  }
+  if (typeof(value === 'number')) {
+    if (type === 'round') {
+      Type = Round;
+    } else if (type === 'triangle') {
+      Type = Triangle;
+    } else if (type === 'square') {
+      Type = Square;
+    }
 
-  if (Type.prototype.possibleValues[color].indexOf(value) !== -1 &&
-      this.getBoardSquare(position) === 0) {
-    this.setBoardSquare(position, new Type(value));
+    if (Type.prototype.possibleValues[color].indexOf(value) !== -1 &&
+        this.getBoardSquare(position) === 0) {
+      this.setBoardSquare(position, new Type(value));
+    }
+  } else if (typeof(value === 'object') && value.length) {
+    this.setBoardSquare(position, new Pyramid(color, value));
   }
 };
 
