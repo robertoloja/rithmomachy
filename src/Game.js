@@ -137,16 +137,18 @@ Game.prototype.capture = function capture(defender) {
 Game.prototype.pathBlocked = function pathBlocked(from, to) {
   let blocked = true;
 
-  if (from[0] === to[0] &&
+  if (from[0] === to[0] && // same file
       this.gameBoard
           .map(x => x[to[0]])
           .slice(1, -1)
-          .filter(x => x !== 0) === []) { // same file
+          .filter(x => x !== 0)
+          .length === 0) {
     blocked = false;
-  } else if (from[1] === to[1] &&
+  } else if (from[1] === to[1] && // same rank
              this.gameBoard[from[1]]
                   .slice(from[0] + 1, to[0])
-                  .filter(x => x !== 0) === []) { // same rank
+                  .filter(x => x !== 0)
+                  .length === 0) {
     blocked = false;
   } else if (Math.abs(from[0] - to[0]) === Math.abs(from[1] - to[1])) {
     // diagonal
@@ -161,7 +163,6 @@ Game.prototype.pathBlocked = function pathBlocked(from, to) {
       }
     }
   }
-
   return blocked;
 };
 
@@ -177,6 +178,11 @@ Game.prototype.isOnBoard = function isOnBoard(coord) {
     result = false;
   }
   return result;
+};
+
+
+Game.prototype.moveIsValid = function moveIsValid(from, to) {
+  return this.moveIsValidNormal(from, to) || this.moveIsValidFlying(from, to);
 };
 
 module.exports = Game;
