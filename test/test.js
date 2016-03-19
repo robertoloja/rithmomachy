@@ -8,9 +8,7 @@ describe('Piece', () => {
   const game = new Game(1, 2);
 
   describe('Round', () => {
-    beforeEach(() => { // reset gameBoard
-      game.resetBoard();
-    });
+    game.resetBoard();
 
     it('- create a Round', () => {
       game.makePiece([1, 1], 2, 'white', 'round');
@@ -39,6 +37,8 @@ describe('Piece', () => {
   });
 
   describe('Triangle', () => {
+    game.resetBoard();
+
     it('- create a Triangle', () => {
       game.makePiece([4, 4], 6, 'white', 'triangle');
       assert.equal(game.getBoardSquare([4, 4]).color, 'white');
@@ -49,6 +49,13 @@ describe('Piece', () => {
         game.move([4, 4], [6, 4]);
         assert.equal(game.getBoardSquare([6, 4]).color, 'white');
         assert.equal(game.getBoardSquare([4, 4]), 0);
+
+        // prevent movement onto another piece
+        game.makePiece([5, 4], 6, 'white', 'triangle');
+
+        game.move([6, 4], [4, 4]);
+        assert.equal(game.getBoardSquare([4, 4]), 0);
+        assert.equal(game.getBoardSquare([6, 4]).color, 'white');
       });
 
       it('- flying move', () => {
