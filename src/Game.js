@@ -51,7 +51,7 @@ Game.prototype.resetBoard = function resetBoard() {
  * @param {String} type The type of piece.
  */
 Game.prototype.makePiece = function makePiece(position, value, color, type) {
-  let Type = '';
+  let Type = {};
 
   if (type === 'round') {
     Type = Round;
@@ -61,7 +61,8 @@ Game.prototype.makePiece = function makePiece(position, value, color, type) {
     Type = Square;
   }
 
-  if (Type.prototype.possibleValues[color].indexOf(value) !== -1) {
+  if (Type.prototype.possibleValues[color].indexOf(value) !== -1 &&
+      this.getBoardSquare(position) === 0) {
     this.setBoardSquare(position, new Type(value));
   }
 };
