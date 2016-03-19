@@ -107,8 +107,8 @@ Game.prototype.move = function move(from, to) {
     }
 
     if (this.getBoardSquare(to) === 0) {
-      this.gameBoard[to[1]][to[0]] = this.getBoardSquare(from);
-      this.gameBoard[from[1]][from[0]] = 0;
+      this.setBoardSquare(to, this.getBoardSquare(from));
+      this.setBoardSquare(from, 0);
     }
   } else if (valid === 2 && this.getBoardSquare(to) === 0) {
     this.gameBoard[to[1]][to[0]] = this.getBoardSquare(from);
