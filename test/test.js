@@ -2,11 +2,6 @@
 'use strict';
 const assert = require('assert');
 const Game = require('../src/Game');
-/*
-const Round = require('../src/Round.js');
-const Triangle = require('../src/Triangle.js');
-const Square = require('../src/Square.js');
-const Pyramid = require('../src/Pyramid.js');*/
 
 
 describe('Piece', () => {
@@ -32,36 +27,28 @@ describe('Piece', () => {
         assert.notEqual(game.getBoardSquare([2, 2]), 0);
       });
     });
-
+    /*
     describe('Capture', () => {
       it('- by encounter', () => {
         assert.equal(true, false);
       });
-    });
+    });*/
   });
 
   describe('Triangle', () => {
     it('- create a Triangle', () => {
-      game.makePiece([4, 4], 6);
-      assert.notEqual(game.getBoardSquare([4, 4].color, 'white'));
+      game.makePiece([4, 4], 6, 'white', 'triangle');
+      assert.equal(game.getBoardSquare([4, 4]).color, 'white');
     });
 
     describe('Movement', () => {
       it('- normal move', () => {
         game.move([4, 4], [6, 4]);
-        assert.notEqual(game.getBoardSquare([6, 4], 0));
-        assert.equal([4, 4], 0);
+        assert.equal(game.getBoardSquare([6, 4]).color, 'white');
+        assert.equal(game.getBoardSquare([4, 4]), 0);
       });
 
       it('- flying move', () => {
-        assert.equal(false, true);
-      });
-
-      it('- prevent move onto another piece', () => {
-        assert.equal(false, true);
-      });
-
-      it('- prevent move off the board', () => {
         assert.equal(false, true);
       });
     });
