@@ -39,7 +39,7 @@ function Game(player1, player2) {
  * Reset the gameBoard to all zeroes.
  */
 Game.prototype.resetBoard = function resetBoard() {
-  this.gameBoard.map(x => x.map(() => 0));
+  this.gameBoard = this.gameBoard.map(x => x.map(() => 0));
 };
 
 
