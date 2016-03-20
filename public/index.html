@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-
-<HTML>
+<HTML ng-app='mainScreen'>
 	<HEAD>
+		<link type='text/css' rel='stylesheet' href='/css/style.css'>
+		<script src='/angular/angular.js'></script>
 		<TITLE>Rithmomachy</TITLE>
-		<LINK REL='stylesheet' TYPE='text/css' HREF='style.css'>
+		<script src='/public/core.js'></script>
 	</HEAD>
-	<BODY>
-		<script src='src/main.js'></script>
-		<script>generateBoard()</script>
+	<BODY ng-controller="GameBoard as board">
+	{{ 'test ' + board.test }}
 	</BODY>
 </HTML>
