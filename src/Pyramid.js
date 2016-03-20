@@ -65,5 +65,17 @@ Pyramid.prototype.calculateValue = function calculateValue() {
   return sum;
 };
 
+Pyramid.prototype.moveIsValid = function moveIsValid(from, to) {
+  let valid = 0;
+
+  for (const piece of this.constituents) {
+    valid = piece.moveIsValid(from, to);
+    if (valid) {
+      return valid;
+    }
+  }
+  return false;
+};
+
 
 module.exports = Pyramid;
