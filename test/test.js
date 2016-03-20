@@ -118,7 +118,9 @@ describe('Piece', () => {
     });
 
     it('- remove a piece', () => {
-      assert.equal(false, true);
+      game.getBoardSquare(coord)
+          .remove(36, 'square', 'white');
+      assert.equal(game.getBoardSquare(coord).value, 55);
     });
 /*
     describe('Movement', () => {

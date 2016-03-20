@@ -44,9 +44,16 @@ Pyramid.prototype.add = function add(value, type, color) {
   this.value += value;
 };
 
-Pyramid.prototype.remove = function remove(pieceIndex) {
-  this.value -= this.constituents[pieceIndex].value;
-  this.constituents.splice(pieceIndex, 1);
+Pyramid.prototype.remove = function remove(value, type, color) {
+  for (let i = 0; i < this.constituents.length; i++) {
+    if (this.constituents[i].value === value &&
+        this.constituents[i].color === color &&
+        this.constituents[i].constructor.name.toLowerCase() === type) {
+      this.value -= this.constituents[i].value;
+      this.constituents.splice(i, 1);
+      break;
+    }
+  }
 };
 
 Pyramid.prototype.calculateValue = function calculateValue() {
