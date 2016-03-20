@@ -1,5 +1,8 @@
 'use strict';
 const Piece = require('./Piece.js');
+const Round = require('./Round.js');
+const Triangle = require('./Triangle.js');
+const Square = require('./Square.js');
 
 /**
  * Represents a pyramidal game piece.
@@ -12,7 +15,8 @@ const Piece = require('./Piece.js');
  * @param {Piece[]} constituents - All the Pieces that make up this pyramid.
  */
 function Pyramid(color, constituents) {
-  this.constituents = constituents;
+  this.constituents = [];
+  this.generateConstituents(constituents);
   this.value = this.calculateValue();
   Piece.call(this, this.value, color);
 }
@@ -20,9 +24,24 @@ function Pyramid(color, constituents) {
 Pyramid.prototype = Object.create(Piece.prototype);
 Pyramid.prototype.constructor = Pyramid;
 
-Pyramid.prototype.add = function add(piece) {
-  this.constituents.push(piece);
-  this.value += piece.value;
+Pyramid.prototype.generateConstituents = function generateConstituents(arr) {
+  arr.forEach(x => {
+    this.add(x[0], x[1], x[2]);
+  });
+};
+
+Pyramid.prototype.add = function add(value, type, color) {
+  let Type = {};
+
+  if (type === 'round') {
+    Type = Round;
+  } else if (type === 'triangle') {
+    Type = Triangle;
+  } else if (type === 'square') {
+    Type = Square;
+  }
+  this.constituents.push(new Type(value, color));
+  this.value += value;
 };
 
 Pyramid.prototype.remove = function remove(pieceIndex) {

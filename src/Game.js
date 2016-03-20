@@ -55,7 +55,7 @@ Game.prototype.resetBoard = function resetBoard() {
 Game.prototype.makePiece = function makePiece(position, value, color, type) {
   let Type = {};
 
-  if (typeof(value === 'number')) {
+  if (typeof(value) === 'number') {
     if (type === 'round') {
       Type = Round;
     } else if (type === 'triangle') {
@@ -64,11 +64,10 @@ Game.prototype.makePiece = function makePiece(position, value, color, type) {
       Type = Square;
     }
 
-    if (Type.prototype.possibleValues[color].indexOf(value) !== -1 &&
-        this.getBoardSquare(position) === 0) {
-      this.setBoardSquare(position, new Type(value));
+    if (this.getBoardSquare(position) === 0) {
+      this.setBoardSquare(position, new Type(value, color));
     }
-  } else if (typeof(value === 'object') && value.length) {
+  } else if (typeof(value) === 'object' && value.length) {
     this.setBoardSquare(position, new Pyramid(color, value));
   }
 };

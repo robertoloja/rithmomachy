@@ -5,23 +5,20 @@ const Piece = require('./Piece.js');
  * Represents a triangular game piece.
  * @classdesc Triangles move two squares horizontally or vertically, if
  *			  path is unobstructed. They fly just as knights in chess.
- *			  Light values: 6, 9, 20, 25, 42, 49, 72, 81.
- *			  Dark values:  12, 16, 30, 36, 56, 64, 90, 100.
+ *              white: [6, 9, 16, 20, 42, 72, 9, 25, 49, 81],
+ *              black: [12, 25, 36, 30, 56, 90, 16, 36, 64, 100],
  * @constructor
  * @extends Piece
  * @param {number} value - This piece's number value.
+ * @param {String} color The piece's color.
  */
-function Triangle(value) {
-  Piece.call(this, value, this.findColor(value));
+function Triangle(value, color) {
+  Piece.call(this, value, color);
 }
 
 Triangle.prototype = Object.create(Piece.prototype);
 Triangle.prototype.constructor = Triangle;
 
-Triangle.prototype.possibleValues = {
-  white: [6, 20, 42, 72, 9, 25, 49, 81],
-  black: [12, 30, 56, 90, 16, 36, 64, 100],
-};
 
 /**
  * Determine whether an attempted normal move is a legal move.

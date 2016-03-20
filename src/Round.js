@@ -4,23 +4,19 @@ const Piece = require('./Piece.js');
 /**
  * Represents a round game piece.
  * @classdesc Rounds move a single square, diagonally, and never fly.
- *			  Light values: 2, 4, 6, 8, and their squares.
- *			  Dark values:  3, 5, 7, 9, and their squares.
+ *              white: [1, 2, 4, 6, 8, 16, 36, 64],
+ *              black: [3, 5, 7, 9, 16, 25, 49, 81],
  * @constructor
  * @extends Piece
  * @param {number} value - This piece's number value.
  */
-function Round(value) {
-  Piece.call(this, value, this.findColor(value));
+function Round(value, color) {
+  Piece.call(this, value, color);
 }
 
 Round.prototype = Object.create(Piece.prototype);
 Round.prototype.constructor = Round;
 
-Round.prototype.possibleValues = {
-  white: [2, 4, 6, 8, 16, 36, 64],
-  black: [3, 5, 7, 9, 25, 49, 81],
-};
 
 /**
  * Determine whether an attempted normal move is a legal move.

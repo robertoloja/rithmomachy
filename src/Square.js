@@ -6,23 +6,20 @@ const Piece = require('./Piece.js');
  * @classdesc Squares move three squares horizontally or vertically, if
  *			  path is unobstructed. They fly similarly to knights in chess,
  *			  but .
- *			  Light values: 15, 25, 45, 81,  169, 153, 289.
- *			  Dark values:  28, 49, 66, 120, 121, 225, 361.
+ *              white: [15, 25, 36, 45, 153, 25, 81, 169, 289],
+ *              black: [28, 66, 120, 49, 64, 121, 225, 361],
  * @constructor
  * @extends Piece
- * @param {number} value - This piece's number value.
+ * @param {Number} value - This piece's number value.
+ * @param {String} color This piece's color.
  */
-function Square(value) {
-  Piece.call(this, value, this.findColor(value));
+function Square(value, color) {
+  Piece.call(this, value, color);
 }
 
 Square.prototype = Object.create(Piece.prototype);
 Square.prototype.constructor = Square;
 
-Square.prototype.possibleValues = {
-  white: [15, 45, 153, 25, 81, 169, 289],
-  black: [28, 66, 120, 49, 121, 225, 361],
-};
 
 /**
  * Populates Piece.possibleMoves with moves that are on the board and follow

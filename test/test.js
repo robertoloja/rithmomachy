@@ -92,20 +92,35 @@ describe('Piece', () => {
     });
   });
 
-  /*
   describe('Pyramid', () => {
+    const coord = [4, 8];
+    const color = 'white';
+
     it('- create a pyramid', () => {
-      assert.equal(false, true);
+      game.resetBoard();
+
+      game.makePiece(coord, [
+        [1, 'round', 'white'],
+        [4, 'round', 'white'],
+        [9, 'triangle', 'white'],
+        [16, 'triangle', 'white'],
+        [25, 'square', 'white'],
+      ], color);
+
+      assert.equal(game.getBoardSquare(coord).color, color);
+      assert.equal(game.getBoardSquare(coord).value, 55);
     });
 
     it('- add a piece', () => {
-      assert.equal(false, true);
+      game.getBoardSquare(coord)
+          .add(36, 'square', 'white');
+      assert.equal(game.getBoardSquare(coord).value, 91);
     });
 
     it('- remove a piece', () => {
       assert.equal(false, true);
     });
-
+/*
     describe('Movement', () => {
       it('- move like a Round', () => {
         assert.equal(false, true);
@@ -118,7 +133,6 @@ describe('Piece', () => {
       it('- move like a Square', () => {
         assert.equal(false, true);
       });
-    });
+    }); */
   });
-  */
 });
