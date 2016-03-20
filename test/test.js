@@ -150,7 +150,7 @@ describe('Piece', () => {
         // square
         game.move([4, 10], [5, 7]);
         assert.equal(game.getBoardSquare([4, 10]), 0);
-        assert.equal(game.getBoardSquare([5, 7]), 0);
+        assert.notEqual(game.getBoardSquare([5, 7]), 0);
       });
     });
   });
