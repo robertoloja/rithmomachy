@@ -122,19 +122,36 @@ describe('Piece', () => {
           .remove(36, 'square', 'white');
       assert.equal(game.getBoardSquare(coord).value, 55);
     });
-/*
+
     describe('Movement', () => {
-      it('- move like a Round', () => {
-        assert.equal(false, true);
+      it('- normal move', () => {
+        // move like a round
+        game.move(coord, [3, 7]);
+        assert.equal(game.getBoardSquare(coord), 0);
+        assert.notEqual(game.getBoardSquare([3, 7]), 0);
+
+        // move like a triangle
+        game.move([3, 7], [3, 9]);
+        assert.equal(game.getBoardSquare([3, 7]), 0);
+        assert.notEqual(game.getBoardSquare([3, 9]), 0);
+
+        // move like a square
+        game.move([3, 9], [3, 12]);
+        assert.equal(game.getBoardSquare([3, 9]), 0);
+        assert.notEqual(game.getBoardSquare([3, 12]), 0);
       });
 
-      it('- move like a Triangle', () => {
-        assert.equal(false, true);
-      });
+      it('- flying move', () => {
+        // triangle
+        game.move([3, 12], [4, 10]);
+        assert.equal(game.getBoardSquare([3, 12]), 0);
+        assert.notEqual(game.getBoardSquare([4, 10]), 0);
 
-      it('- move like a Square', () => {
-        assert.equal(false, true);
+        // square
+        game.move([4, 10], [5, 7]);
+        assert.equal(game.getBoardSquare([4, 10]), 0);
+        assert.equal(game.getBoardSquare([5, 7]), 0);
       });
-    }); */
+    });
   });
 });
