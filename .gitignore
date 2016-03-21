@@ -1,4 +1,5 @@
 
+.tern-config
 .eslintrc.json
 npm-debug.log
 node_modules/**/*
