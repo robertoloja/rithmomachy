@@ -3,5 +3,10 @@
     "plugins": [
 		"mocha",
 		"angular"
-    ]
+    ],
+    "rules": {
+        "ecmaFeatures": {
+            "modules": false
+        }
+    }
 }
