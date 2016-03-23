@@ -187,9 +187,5 @@ Game.prototype.isOnBoard = function isOnBoard(coord) {
   return result;
 };
 
-/*
-Game.prototype.moveIsValid = function moveIsValid(from, to) {
-  return this.moveIsValidNormal(from, to) || this.moveIsValidFlying(from, to);
-}; */
 
 module.exports = Game;
