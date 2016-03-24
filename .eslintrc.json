@@ -5,8 +5,7 @@
 		"angular"
     ],
     "rules": {
-        "ecmaFeatures": {
-            "modules": false
-        }
+      "prefer-template": 0,
+      "no-console": 0
     }
 }

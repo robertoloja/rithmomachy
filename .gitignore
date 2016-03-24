@@ -1,5 +1,7 @@
 
 .tern-config
 .eslintrc.json
+*/.eslintrc.json
 npm-debug.log
 node_modules/**/*
+.tern-project

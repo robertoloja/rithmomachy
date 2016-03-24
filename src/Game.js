@@ -188,4 +188,8 @@ Game.prototype.isOnBoard = function isOnBoard(coord) {
 };
 
 
+Game.prototype.prepareBoardForMatch = function prepareBoardForMatch() {
+  // create and place all the pieces in their initial positions.
+};
+
 module.exports = Game;
