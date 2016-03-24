@@ -1,11 +1,13 @@
 {
     "extends": "airbnb",
     "plugins": [
-		"mocha",
-		"angular"
+		"mocha"
     ],
     "rules": {
       "prefer-template": 0,
       "no-console": 0
+    },
+    "globals": {
+        "angular": 1
     }
 }
