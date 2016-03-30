@@ -2,9 +2,9 @@
 }
 
 .boardSquare {
-    background: black;
+    background: grey;
 }
 
 .boardRow:nth-child(even) .boardSquare:nth-child(odd), .boardRow:nth-child(odd) .boardSquare:nth-child(even) {
-    background: white;
+    background: lightgrey;
 }
