@@ -5,7 +5,9 @@
     ],
     "rules": {
       "prefer-template": 0,
-      "no-console": 0
+      "no-console": 0,
+      "strict": 0,
+      "arrow-body-style": 0
     },
     "globals": {
         "angular": 1

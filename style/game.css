@@ -1,0 +1,10 @@
+#game-board {
+}
+
+.boardSquare {
+    background: black;
+}
+
+.boardRow:nth-child(even) .boardSquare:nth-child(odd), .boardRow:nth-child(odd) .boardSquare:nth-child(even) {
+    background: white;
+}
