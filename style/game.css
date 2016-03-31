@@ -25,8 +25,9 @@
   background: #E0E0E0;
 }
 
-round div {
+round div, triangle div {
   padding-top: 8px;
+  text-align: center;
   color: white;
   font-weight: bold;
   text-shadow: 1px 1px 0px black,
@@ -34,3 +35,4 @@ round div {
               -1px 1px 0px black,
               1px -1px 0px black;
 }
+
