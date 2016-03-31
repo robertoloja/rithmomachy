@@ -1,6 +1,20 @@
 #game-board {
 }
 
+.label {
+  font-size: 0.8em;
+}
+
+.columnLabel {
+  vertical-align: top;
+  padding-top: 2px;
+}
+
+.rowLabel {
+  text-align: right;
+  padding-right: 5px;
+}
+
 .boardSquare {
   background: grey;
   width: 34px;
