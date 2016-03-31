@@ -16,24 +16,13 @@
 }
 
 .boardSquare {
-  background: grey;
-  width: 34px;
+  background: #7B7B7B;
+  min-width: 34px;
   height: 34px;
 }
 
 .boardRow:nth-child(even) .boardSquare:nth-child(odd), .boardRow:nth-child(odd) .boardSquare:nth-child(even) {
-  background: lightgrey;
-}
-
-round {
-  position: relative;
-  display: block;
-  background: darkgrey;
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+  background: #E0E0E0;
 }
 
 round div {

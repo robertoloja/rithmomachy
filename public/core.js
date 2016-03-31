@@ -43,7 +43,22 @@
     return {
       restrict: 'E',
       transclude: true,
+      scope: {
+        color: '=color',
+      },
       template: '<div ng-transclude></div>',
+      link: (scope, element) => {
+        element.css({
+          position: 'relative',
+          display: 'block',
+          background: 'darkgrey',
+          width: '32px',
+          height: '32px',
+          borderRadius: '16px',
+          textAlign: 'center',
+          boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.8)',
+        });
+      },
     };
   });
 
