@@ -39,13 +39,13 @@
   /**
    * Piece directives.
    */
-  // TODO: add the listeners to this to make it move
+  // TODO: add the listeners to this so they aren't in separate js files.
   app.directive('round', () => {
     return {
       restrict: 'E',
       transclude: true,
       scope: {
-        color: '=color',
+        color: '=',
       },
       template: '<div ng-transclude></div>',
       link: (scope, element) => {
@@ -68,10 +68,10 @@
       restrict: 'E',
       transclude: true,
       scope: {
-        color: '=color',
+        color: '=',
       },
       template: '<div ng-transclude></div>',
-      link: (scope, element) => {
+      link: (scope, element, attrs) => {
         element.css({
           position: 'relative',
           display: 'block',
@@ -79,7 +79,7 @@
           height: '0',
           borderStyle: 'solid',
           borderWidth: '0 17px 29.4px 17px',
-          borderColor: 'transparent transparent darkgrey transparent',
+          borderColor: 'transparent transparent ' + attrs.color + ' transparent',
           boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.8)',
         });
       },
@@ -90,7 +90,21 @@
     return {
       restrict: 'E',
       transclude: true,
+      scope: {
+        color: '=',
+      },
       template: '<div ng-transclude></div>',
+      link: (scope, element, attrs) => {
+        element.css({
+          background: attrs.color,
+          position: 'relative',
+          display: 'block',
+          width: '32px',
+          height: '32px',
+          boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.8)',
+          borderRadius: '3px',
+        });
+      },
     };
   });
 }());
