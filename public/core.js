@@ -34,4 +34,32 @@
       templateUrl: '/public/gameBoard.html',
     };
   });
+
+
+  /**
+   * Piece directives.
+   */
+  app.directive('round', () => {
+    return {
+      restrict: 'E',
+      transclude: true,
+      template: '<div ng-transclude></div>',
+    };
+  });
+
+  app.directive('triangle', () => {
+    return {
+      restrict: 'E',
+      transclude: true,
+      template: '<div ng-transclude></div>',
+    };
+  });
+
+  app.directive('square', () => {
+    return {
+      restrict: 'E',
+      transclude: true,
+      template: '<div ng-transclude></div>',
+    };
+  });
 }());

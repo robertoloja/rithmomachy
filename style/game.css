@@ -2,9 +2,32 @@
 }
 
 .boardSquare {
-    background: grey;
+  background: grey;
+  width: 34px;
+  height: 34px;
 }
 
 .boardRow:nth-child(even) .boardSquare:nth-child(odd), .boardRow:nth-child(odd) .boardSquare:nth-child(even) {
-    background: lightgrey;
+  background: lightgrey;
+}
+
+round {
+  position: relative;
+  display: block;
+  background: darkgrey;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+}
+
+round div {
+  padding-top: 8px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px black,
+              -1px -1px 0px black,
+              -1px 1px 0px black,
+              1px -1px 0px black;
 }
