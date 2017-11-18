@@ -1,8 +1,7 @@
 ## Rithmomachy
 
-A late-medieval mathematical board game. In fact, this is 'The Philosopher's
-Game' (a monicker I'm sure many of my chess player philosophy major friends 
-might strongly object to).
+A late-medieval mathematical board game, known as 'The Philosopher's
+Game'.
 
 Here's [wikipedia](https://en.wikipedia.org/wiki/Rithmomachy) on the subject,
 and [here's](http://www.gamecabinet.com/rules/Rithmomachia.html) a more 
